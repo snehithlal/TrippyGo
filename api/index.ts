@@ -1,2 +1,2 @@
-import handler from "../serverless/contentHandler";
+import handler from "./contentHandler";
 export default handler;
