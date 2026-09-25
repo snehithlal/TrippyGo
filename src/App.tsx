@@ -25,11 +25,12 @@ import {
 import { site, trips, faqs, gallery } from "./data/content";
 import type { Destination } from "./types";
 import { cx } from "./styles";
-
-import Packages from "./components/Packages";
+import { Route, Routes } from "react-router-dom";
+import PackageGallery from "./components/PackageGallery";
+import AdminApp from "./admin/AdminApp";
 import usePageMotion from "./hooks/usePageMotion";
 
-function Brand() {
+const Brand = () => {
   return (
     <a className={cx("brand")} href="#home" aria-label="TrippyGo home">
       <img
@@ -48,8 +49,8 @@ function Brand() {
       </span>
     </a>
   );
-}
-function App() {
+};
+const LandingPage = () => {
   usePageMotion();
   const [menu, setMenu] = useState(false);
   const [filter, setFilter] = useState("All escapes");
@@ -78,11 +79,11 @@ function App() {
   const contact = site.whatsapp
     ? `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(`Hi TrippyGo! I'd love to plan ${selected ? `the ${selected.destination} escape` : "a trip"}.`)}`
     : site.instagram;
-  function explore(e: FormEvent<HTMLFormElement>) {
+  const explore = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFilter(style === "Any kind of escape" ? "All escapes" : style);
     document.getElementById("escapes")?.scrollIntoView({ behavior: "smooth" });
-  }
+  };
   return (
     <>
       <a className={cx("skip-link")} href="#main">
@@ -259,7 +260,7 @@ function App() {
             <Heart /> Planned with a personal touch
           </span>
         </div>
-        <Packages />
+        <PackageGallery />
         <section id="escapes" className={cx("section", "container")}>
           <div className={cx("section-heading")}>
             <div>
@@ -748,5 +749,21 @@ function App() {
       </dialog>
     </>
   );
-}
+};
+
+const configuredAdminRoute = import.meta.env.VITE_ADMIN_ROUTE?.trim().replace(
+  /^\/+|\/+$/g,
+  "",
+);
+const adminRoute = configuredAdminRoute
+  ? `/${configuredAdminRoute}`
+  : undefined;
+
+const App = () => (
+  <Routes>
+    {adminRoute && <Route path={adminRoute} element={<AdminApp />} />}
+    <Route path="*" element={<LandingPage />} />
+  </Routes>
+);
+
 export default App;

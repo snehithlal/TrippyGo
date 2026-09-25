@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 // Content remains visible when animation or IntersectionObserver is unavailable.
-export default function usePageMotion() {
+const usePageMotion = () => {
   useEffect(() => {
     const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (preference.matches || !("IntersectionObserver" in window)) return;
@@ -48,4 +48,6 @@ export default function usePageMotion() {
       preference.removeEventListener("change", stop);
     };
   }, []);
-}
+};
+
+export default usePageMotion;

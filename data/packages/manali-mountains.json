@@ -1,0 +1,46 @@
+{
+  "id": "manali-mountains",
+  "title": "Meet me in the mountains",
+  "destination": "Manali",
+  "category": "Adventure",
+  "days": 6,
+  "nights": 5,
+  "badge": "Take the high road",
+  "route": "Manali · Mountain valleys · Village walks",
+  "price": 16999,
+  "displayOrder": 4,
+  "image": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1100&q=85",
+  "alt": "Dramatic mountain peaks beneath clouds",
+  "description": "Crisp air, winding roads, and mountain mornings. Build a Himalayan escape around the season and your sense of adventure.",
+  "features": [
+    "Mountain stays",
+    "Valley drives",
+    "Seasonal activities"
+  ],
+  "itinerary": [
+    {
+      "title": "Into the mountains",
+      "text": "Arrive in Manali and take time to rest after your journey."
+    },
+    {
+      "title": "Wander a little",
+      "text": "Explore village lanes and local cafés at an easy pace."
+    },
+    {
+      "title": "Valley views",
+      "text": "Plan a scenic valley excursion based on weather and road conditions."
+    },
+    {
+      "title": "Your kind of adventure",
+      "text": "Choose from locally available activities; costs and suitability are confirmed separately."
+    },
+    {
+      "title": "Leave room for the unexpected",
+      "text": "Keep a flexible day for another excursion or a relaxed mountain morning."
+    },
+    {
+      "title": "Carry the mountains home",
+      "text": "Check out and begin your onward journey."
+    }
+  ]
+}

@@ -9,12 +9,12 @@ import {
   SlidersHorizontal,
   X,
 } from "lucide-react";
-import { packages, packageCategories, formatPrice } from "../data/packages";
+import { formatPrice } from "../data/packages";
 import { site } from "../data/content";
 import type { TourPackage } from "../types";
 import { cx } from "../styles";
 
-export default function Packages() {
+const Packages = ({ items }: { items: TourPackage[] }) => {
   const [category, setCategory] = useState("All trips");
   const [selected, setSelected] = useState<TourPackage | null>(null);
   const [date, setDate] = useState("");
@@ -22,7 +22,11 @@ export default function Packages() {
   const [customise, setCustomise] = useState(false);
   const [requests, setRequests] = useState("");
   const dialog = useRef<HTMLDialogElement>(null);
-  const visible = packages.filter(
+  const packageCategories = [
+    "All trips",
+    ...new Set(items.map((item) => item.category)),
+  ];
+  const visible = items.filter(
     (item) => category === "All trips" || item.category === category,
   );
   const today = new Date();
@@ -38,16 +42,16 @@ export default function Packages() {
     };
   }, [selected]);
 
-  function close() {
+  const close = () => {
     dialog.current?.close();
     setSelected(null);
     setDate("");
     setTravellers("2");
     setCustomise(false);
     setRequests("");
-  }
+  };
 
-  function enquiry(event: FormEvent<HTMLFormElement>) {
+  const enquiry = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!selected) return;
     const message = `Hi TrippyGo! I'm interested in "${selected.title}" (${selected.days} days / ${selected.nights} nights).\nTravellers: ${travellers}\nPreferred departure: ${date || "Flexible"}\nPackage price: ${formatPrice(selected.price)} per person\nPlan: ${customise ? "Customised package" : "Standard package"}${customise ? `\nRequested changes: ${requests || "Please help me personalise this trip."}` : ""}\n${customise ? "Please share the revised itinerary and price for these changes." : "Please confirm availability and booking details for the standard package."}`;
@@ -56,7 +60,7 @@ export default function Packages() {
       "_blank",
       "noopener,noreferrer",
     );
-  }
+  };
 
   return (
     <section id="packages" className={cx("packages-section")}>
@@ -208,7 +212,7 @@ export default function Packages() {
               <span className={cx("eyebrow")}>A TRIP TO MAKE YOUR OWN</span>
               <h2 id="package-dialog-title">{selected.title}</h2>
               <p className={cx("package-dialog-intro")}>
-                {selected.description}
+                {selected.fullDescription || selected.description}
               </p>
               <div className={cx("package-dialog-facts")}>
                 <span>
@@ -316,4 +320,6 @@ export default function Packages() {
       </dialog>
     </section>
   );
-}
+};
+
+export default Packages;

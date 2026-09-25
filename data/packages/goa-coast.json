@@ -1,0 +1,38 @@
+{
+  "id": "goa-coast",
+  "title": "Saltwater state of mind",
+  "destination": "Goa",
+  "category": "Beach",
+  "days": 4,
+  "nights": 3,
+  "badge": "For the sunset seekers",
+  "route": "Goa · Beaches · Colourful lanes",
+  "price": 8999,
+  "displayOrder": 3,
+  "image": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1100&q=85",
+  "alt": "Clear ocean water and a sunlit beach",
+  "description": "Beach mornings, colourful neighbourhoods, and evenings with nowhere else to be. Take the coast at your own pace.",
+  "features": [
+    "Coastal stays",
+    "Leisure time",
+    "Local exploring"
+  ],
+  "itinerary": [
+    {
+      "title": "Hello, sea breeze",
+      "text": "Arrive, settle into your stay, and head out for a sunset stroll."
+    },
+    {
+      "title": "Find your favourite beach",
+      "text": "Choose a relaxed beach day or ask us about available activities."
+    },
+    {
+      "title": "Beyond the shoreline",
+      "text": "Explore local neighbourhoods and cafés, with free time for your own discoveries."
+    },
+    {
+      "title": "A last look at the sea",
+      "text": "Take a slow morning before checking out and travelling home."
+    }
+  ]
+}

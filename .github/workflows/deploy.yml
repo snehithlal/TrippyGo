@@ -20,8 +20,15 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npm run build
       - uses: actions/configure-pages@v5
+        id: pages
+      - run: npm run build
+        env:
+          VITE_BASE_PATH: ${{ steps.pages.outputs.base_path }}/
+          VITE_ADMIN_ROUTE: ${{ vars.VITE_ADMIN_ROUTE }}
+          VITE_CONTENT_API_URL: ${{ vars.VITE_CONTENT_API_URL }}
+      - name: Add GitHub Pages SPA fallback
+        run: cp dist/index.html dist/404.html
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

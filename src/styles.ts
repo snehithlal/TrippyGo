@@ -220,9 +220,8 @@ export const styles = {
 } satisfies Record<string, string>;
 
 /** Retain semantic hooks for scroll reveals while composing scanned Tailwind utilities. */
-export function cx(...names: (keyof typeof styles | false)[]): string {
-  return names
+export const cx = (...names: (keyof typeof styles | false)[]): string =>
+  names
     .filter((name): name is keyof typeof styles => name !== false)
     .map((name) => `${name} ${styles[name]}`)
     .join(" ");
-}

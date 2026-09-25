@@ -9,9 +9,12 @@ export interface TourPackage {
   route: string;
   /** Standard package price in INR per person. */
   price: number;
+  /** Lower values appear earlier in the public package list. */
+  displayOrder?: number;
   image: string;
   alt: string;
   description: string;
+  fullDescription?: string;
   features: string[];
   itinerary: { title: string; text: string }[];
 }

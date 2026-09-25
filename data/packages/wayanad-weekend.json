@@ -1,0 +1,34 @@
+{
+  "id": "wayanad-weekend",
+  "title": "A cabin in the green",
+  "destination": "Wayanad",
+  "category": "Nature",
+  "days": 3,
+  "nights": 2,
+  "badge": "A little closer to nature",
+  "route": "Wayanad · Forest stays · Scenic trails",
+  "price": 5999,
+  "displayOrder": 2,
+  "image": "./images/woodland-stay.webp",
+  "alt": "A-frame cabin surrounded by lush greenery",
+  "description": "Switch off the notifications. Wake up to birdsong, explore the green outdoors, and let the weekend breathe.",
+  "features": [
+    "Nature stays",
+    "Flexible pace",
+    "Scenic drives"
+  ],
+  "itinerary": [
+    {
+      "title": "Check in. Tune out.",
+      "text": "Arrive at your selected stay and spend the evening settling into the surroundings."
+    },
+    {
+      "title": "Follow the green",
+      "text": "Plan a day of viewpoints and nature walks, subject to weather and local access."
+    },
+    {
+      "title": "One more slow morning",
+      "text": "Enjoy breakfast and a little time outdoors before your journey home."
+    }
+  ]
+}

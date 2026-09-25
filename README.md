@@ -1,12 +1,13 @@
 # TrippyGo
 
-## Update prices and packages
+React and Vite travel website deployed to GitHub Pages. The private package management interface uses a separately deployed serverless API.
 
-Edit **[src/data/packages.ts](src/data/packages.ts)**:
+## Development
 
-- **Change a price:** update `price` with the amount in rupees per person, for example `price: 14999`.
-- **Change package details:** edit `title`, `destination`, `route`, `days`, `nights`, `description`, `features`, and `itinerary`.
-- **Add a package:** copy an existing entry in `packages`, give it a unique `id`, and update its details. Category filters update automatically.
-- **Change a photo:** update `image` and its descriptive `alt` text. Put your own photos in `public/images/` and use a path such as `./images/kerala.webp`.
+Use Node.js 22. Install dependencies with `npm ci`, then run `npm run dev`. `npm run build` performs the TypeScript check and production build.
 
-Developer setup and deployment: **[docs/development.md](docs/development.md)**.
+See [development and deployment](docs/development.md) for Pages and API setup. Configure the private route and API URL as deployment variables. Server credentials belong only in the API host's secure environment settings.
+
+## Package content
+
+Package records live in `data/packages/` and share the website's `TourPackage` model. Set a package's `displayOrder` to control its public listing position; lower numbers appear first. The admin API commits package and image changes to GitHub; pushes to the configured branch trigger the existing GitHub Pages workflow. The admin dashboard reports the matching deployment status.
