@@ -1,4 +1,4 @@
-import { type FormEvent, useEffect, useRef, useState } from "react";
+import { type FormEvent, useState } from "react";
 import {
   ArrowUpRight,
   ArrowRight,
@@ -9,8 +9,6 @@ import {
   Compass,
   Leaf,
   Heart,
-  Clock3,
-  Check,
   Instagram,
   MoveUpRight,
   SlidersHorizontal,
@@ -23,7 +21,6 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { site, trips, faqs, gallery } from "./data/content";
-import type { Destination } from "./types";
 import { cx } from "./styles";
 import { Route, Routes } from "react-router-dom";
 import PackageGallery from "./components/PackageGallery";
@@ -53,36 +50,15 @@ const Brand = () => {
 const LandingPage = () => {
   usePageMotion();
   const [menu, setMenu] = useState(false);
-  const [filter, setFilter] = useState("All escapes");
   const [destination, setDestination] = useState("Anywhere sounds good");
   const [style, setStyle] = useState("Any kind of escape");
-  const [selected, setSelected] = useState<Destination | null>(null);
-  const [copied, setCopied] = useState<boolean | "failed">(false);
-  const dialog = useRef<HTMLDialogElement>(null);
-  const visible = trips.filter(
-    (t) =>
-      (filter === "All escapes" || t.category === filter) &&
-      (destination === "Anywhere sounds good" || t.destination === destination),
-  );
-  useEffect(() => {
-    if (selected) {
-      dialog.current?.showModal();
-      document.body.style.overflow = "hidden";
-    } else {
-      dialog.current?.close();
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [selected]);
   const contact = site.whatsapp
-    ? `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(`Hi TrippyGo! I'd love to plan ${selected ? `the ${selected.destination} escape` : "a trip"}.`)}`
+    ? `https://wa.me/${site.whatsapp}?text=${encodeURIComponent("Hi TrippyGo! I'd love to plan a trip.")}`
     : site.instagram;
   const explore = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setFilter(style === "Any kind of escape" ? "All escapes" : style);
-    document.getElementById("escapes")?.scrollIntoView({ behavior: "smooth" });
+    void style;
+    document.getElementById("packages")?.scrollIntoView({ behavior: "smooth" });
   };
   return (
     <>
@@ -99,7 +75,7 @@ const LandingPage = () => {
           >
             {[
               ["Packages", "packages"],
-              ["Destinations", "escapes"],
+              ["Packages", "packages"],
               ["Our story", "about"],
             ].map(([text, id]) => (
               <a key={id} href={`#${id}`} onClick={() => setMenu(false)}>
@@ -261,116 +237,6 @@ const LandingPage = () => {
           </span>
         </div>
         <PackageGallery />
-        <section id="escapes" className={cx("section", "container")}>
-          <div className={cx("section-heading")}>
-            <div>
-              <span className={cx("eyebrow")}>FOLLOW YOUR CURIOSITY</span>
-              <h2>
-                Where do you
-                <br />
-                <em>want to wake up?</em>
-              </h2>
-            </div>
-            <p>
-              For the long weekends, the spontaneous plans,
-              <br className={cx("desktop-break")} /> and the “we really needed
-              this” getaways.
-            </p>
-          </div>
-          <div className={cx("filter-row")}>
-            <div className={cx("filters")} aria-label="Filter escapes">
-              {["All escapes", "Mountains", "Backwaters", "Beaches"].map(
-                (f) => (
-                  <button
-                    key={f}
-                    aria-pressed={filter === f}
-                    className={cx("filter")}
-                    onClick={() => {
-                      setFilter(f);
-                      setDestination("Anywhere sounds good");
-                    }}
-                  >
-                    {f === "All escapes" && <Compass size={15} />} {f}
-                  </button>
-                ),
-              )}
-            </div>
-            <span className={cx("trip-count")} aria-live="polite">
-              {visible.length} places to disconnect
-            </span>
-          </div>
-          <div className={cx("trip-grid")}>
-            {visible.map((t) => (
-              <article className={cx("trip-card")} key={t.id}>
-                <button
-                  className={cx("trip-photo")}
-                  onClick={() => setSelected(t)}
-                  aria-label={`Explore ${t.destination}`}
-                >
-                  <img src={t.image} alt={t.alt} loading="lazy" />
-                  <span className={cx("photo-tag")}>{t.tag}</span>
-                  <span className={cx("poster-destination")}>
-                    {t.destination}
-                  </span>
-                  <span className={cx("photo-location")}>
-                    <MapPin size={14} />
-                    {t.region}, India
-                  </span>
-                  <span className={cx("photo-arrow")}>
-                    <ArrowUpRight size={21} />
-                  </span>
-                </button>
-                <div className={cx("trip-body")}>
-                  <span className={cx("trip-duration")}>
-                    <Clock3 size={13} />
-                    {t.duration}
-                    <span>·</span>
-                    {t.category}
-                  </span>
-                  <h3>
-                    <button onClick={() => setSelected(t)}>{t.title}</button>
-                  </h3>
-                  <p>{t.description}</p>
-                  <div className={cx("trip-card-bottom")}>
-                    <span>
-                      Made for you <small>Get a personalised quote</small>
-                    </span>
-                    <button
-                      aria-label={`View ${t.destination} itinerary`}
-                      onClick={() => setSelected(t)}
-                    >
-                      <ArrowUpRight size={21} />
-                    </button>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-          {visible.length === 0 && (
-            <div className={cx("empty-state")}>
-              <Compass size={32} />
-              <h3>A different kind of escape?</h3>
-              <p>
-                No trip ideas match those filters. Explore all escapes or ask us
-                to plan something personal.
-              </p>
-              <button
-                className={cx("button", "button-green")}
-                onClick={() => {
-                  setFilter("All escapes");
-                  setDestination("Anywhere sounds good");
-                }}
-              >
-                Show all escapes <ArrowRight size={17} />
-              </button>
-            </div>
-          )}
-          <p className={cx("sample-note")}>
-            A little inspiration for your next trip. Itineraries are
-            customisable; availability and final pricing are confirmed on
-            enquiry.
-          </p>
-        </section>
         <section
           className={cx("services-section", "container")}
           aria-labelledby="services-title"
@@ -657,96 +523,6 @@ const LandingPage = () => {
           </span>
         </div>
       </footer>
-      <dialog
-        ref={dialog}
-        aria-label={
-          selected ? `${selected.destination} trip details` : "Trip details"
-        }
-        className={cx("trip-dialog")}
-        onCancel={() => setSelected(null)}
-        onClick={(e) => {
-          if (e.target === dialog.current) setSelected(null);
-        }}
-        onClose={() => {
-          setSelected(null);
-          setCopied(false);
-        }}
-      >
-        {selected && (
-          <>
-            <button
-              className={cx("dialog-close")}
-              aria-label="Close itinerary"
-              onClick={() => setSelected(null)}
-            >
-              <X size={22} />
-            </button>
-            <img
-              className={cx("dialog-image")}
-              src={selected.image}
-              alt={selected.alt}
-            />
-            <div className={cx("dialog-body")}>
-              <span className={cx("eyebrow")}>
-                {selected.destination} · {selected.duration}
-              </span>
-              <h2>{selected.title}</h2>
-              <p>{selected.description}</p>
-              <div className={cx("highlights")}>
-                {selected.highlights.map((h) => (
-                  <span key={h}>
-                    <Check size={14} />
-                    {h}
-                  </span>
-                ))}
-              </div>
-              <h3>Your trip could look like this</h3>
-              <ol className={cx("itinerary")}>
-                {selected.itinerary.map((day, i) => (
-                  <li key={day}>
-                    <strong>Day {i + 1}</strong>
-                    <span>{day}</span>
-                  </li>
-                ))}
-              </ol>
-              <p className={cx("sample-note")}>
-                Suggested itinerary. Stays, transport, activities, availability,
-                and pricing will be confirmed in your personal quote.
-              </p>
-              <a
-                className={cx("button", "button-green")}
-                href={contact}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Ask us about this escape <ArrowUpRight size={18} />
-              </a>
-              <button
-                className={cx("copy-button")}
-                onClick={async () => {
-                  try {
-                    await navigator.clipboard.writeText(
-                      `Hi TrippyGo! I’m interested in your ${selected.destination} escape (${selected.duration}). Can you help me plan a trip?`,
-                    );
-                    setCopied(true);
-                  } catch {
-                    setCopied("failed");
-                  }
-                }}
-              >
-                {copied === true
-                  ? "Copied! Paste it into your message."
-                  : copied === "failed"
-                    ? "Copy unavailable — mention this destination in your message."
-                    : "Copy a trip enquiry to send"}{" "}
-              </button>
-              <span className={cx("sr-only")} role="status">
-                {copied === true ? "Trip enquiry copied" : ""}
-              </span>
-            </div>
-          </>
-        )}
-      </dialog>
     </>
   );
 };
