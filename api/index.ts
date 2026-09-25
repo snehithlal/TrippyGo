@@ -1,2 +1,2 @@
-import handler from "./contentHandler";
+import handler from "./contentHandler.js";
 export default handler;
