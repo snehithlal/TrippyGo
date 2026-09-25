@@ -65,6 +65,7 @@ const AdminApp = () => {
   const [deploymentCommit, setDeploymentCommit] = useState("");
   const [deployment, setDeployment] = useState<DeploymentStatus | null>(null);
   const [deploymentError, setDeploymentError] = useState("");
+  const [pendingDelete, setPendingDelete] = useState<TourPackage | null>(null);
   const [draggedPackageId, setDraggedPackageId] = useState<string | null>(null);
   const [dragOverPackageId, setDragOverPackageId] = useState<string | null>(
     null,
@@ -122,6 +123,15 @@ const AdminApp = () => {
     setImagePreview(preview);
     return () => URL.revokeObjectURL(preview);
   }, [image]);
+
+  useEffect(() => {
+    if (!pendingDelete) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [pendingDelete]);
 
   const followCommit = (sha: string) => {
     setDeploymentCommit(sha);
@@ -188,13 +198,8 @@ const AdminApp = () => {
   };
 
   const remove = async (item: TourPackage) => {
-    if (
-      !window.confirm(
-        `Delete “${item.title}”? This change will be committed to GitHub.`,
-      )
-    )
-      return;
     setBusy(true);
+    setPendingDelete(null);
     setError("");
     try {
       const result = await deletePackage(item.id);
@@ -382,6 +387,29 @@ const AdminApp = () => {
                 </ul>
               </div>
             )}
+            <section
+              className="admin-editor-guide"
+              aria-label="Package writing guide"
+            >
+              <div>
+                <span className="eyebrow">QUICK CONTENT GUIDE</span>
+                <h3>Make the trip easy to picture.</h3>
+                <p>
+                  The card uses the name, route, short description, badge, and
+                  highlights. The detail view adds the full description and
+                  day-by-day itinerary.
+                </p>
+              </div>
+              <div className="admin-example-card">
+                <strong>Example</strong>
+                <b>Saltwater state of mind</b>
+                <span>Goa · Beaches · Colourful lanes</span>
+                <small>
+                  Beach mornings, colourful neighbourhoods, and evenings with
+                  nowhere else to be.
+                </small>
+              </div>
+            </section>
             <div className="admin-fields">
               <label
                 className={fieldErrors.title ? "admin-invalid" : undefined}
@@ -390,6 +418,7 @@ const AdminApp = () => {
                 <input
                   required
                   maxLength={100}
+                  placeholder="Saltwater state of mind"
                   value={editing.title}
                   onChange={(event) => change("title", event.target.value)}
                 />
@@ -403,6 +432,7 @@ const AdminApp = () => {
                 <input
                   required
                   maxLength={100}
+                  placeholder="Goa"
                   value={editing.destination}
                   onChange={(event) =>
                     change("destination", event.target.value)
@@ -416,6 +446,7 @@ const AdminApp = () => {
                 <input
                   required
                   maxLength={40}
+                  placeholder="Beach"
                   value={editing.category}
                   onChange={(event) => change("category", event.target.value)}
                 />
@@ -489,6 +520,7 @@ const AdminApp = () => {
                 <input
                   required
                   value={editing.route}
+                  placeholder="Goa · Beaches · Colourful lanes"
                   onChange={(event) => change("route", event.target.value)}
                 />
               </label>
@@ -500,6 +532,7 @@ const AdminApp = () => {
                   required
                   maxLength={240}
                   rows={2}
+                  placeholder="Describe the feeling of this trip in one or two sentences."
                   value={editing.description}
                   onChange={(event) =>
                     change("description", event.target.value)
@@ -512,6 +545,7 @@ const AdminApp = () => {
                 Full description
                 <textarea
                   rows={5}
+                  placeholder="Add the fuller story guests see when they open the package."
                   value={editing.fullDescription ?? ""}
                   onChange={(event) =>
                     change("fullDescription", event.target.value)
@@ -522,13 +556,21 @@ const AdminApp = () => {
                 className={fieldErrors.badge ? "admin-invalid" : undefined}
               >
                 Badge
+                <span className="admin-hint">
+                  A short phrase shown over the image
+                </span>
                 <input
+                  placeholder="For the sunset seekers"
                   value={editing.badge}
                   onChange={(event) => change("badge", event.target.value)}
                 />
               </label>
+              <span className="admin-hint">
+                Describe what is visible, not the package name
+              </span>
               <label className={fieldErrors.alt ? "admin-invalid" : undefined}>
-                Image alt text
+                Image alt text placeholder="Clear ocean water and a sunlit
+                beach"
                 <input
                   required
                   value={editing.alt}
@@ -797,7 +839,7 @@ const AdminApp = () => {
                     </button>
                     <button
                       aria-label={`Delete ${item.title}`}
-                      onClick={() => remove(item)}
+                      onClick={() => setPendingDelete(item)}
                       disabled={busy}
                     >
                       <Trash2 size={17} /> Delete
@@ -807,6 +849,54 @@ const AdminApp = () => {
               ))}
             </div>
           </>
+        )}
+        {pendingDelete && (
+          <div
+            className="admin-modal-backdrop"
+            role="presentation"
+            onMouseDown={(event) => {
+              if (event.target === event.currentTarget) setPendingDelete(null);
+            }}
+          >
+            <section
+              className="admin-confirm-modal"
+              role="alertdialog"
+              aria-modal="true"
+              aria-labelledby="delete-package-title"
+              aria-describedby="delete-package-description"
+            >
+              <div className="admin-confirm-icon" aria-hidden="true">
+                <Trash2 size={22} />
+              </div>
+              <span className="eyebrow">PERMANENT CHANGE</span>
+              <h2 id="delete-package-title">Delete this package?</h2>
+              <p id="delete-package-description">
+                <strong>{pendingDelete.title}</strong> will be removed from the
+                website and committed to GitHub. This cannot be undone from the
+                admin page.
+              </p>
+              <div className="admin-confirm-actions">
+                <button
+                  type="button"
+                  className="admin-confirm-cancel"
+                  onClick={() => setPendingDelete(null)}
+                  disabled={busy}
+                  autoFocus
+                >
+                  Keep package
+                </button>
+                <button
+                  type="button"
+                  className="admin-confirm-delete"
+                  onClick={() => void remove(pendingDelete)}
+                  disabled={busy}
+                >
+                  <Trash2 size={17} />
+                  {busy ? "Deleting…" : "Delete package"}
+                </button>
+              </div>
+            </section>
+          </div>
         )}
       </div>
     </main>

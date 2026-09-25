@@ -109,6 +109,54 @@
 .admin-validation-summary li + li {
   margin-top: 4px;
 }
+.admin-editor-guide {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(220px, 0.75fr);
+  gap: 18px;
+  align-items: stretch;
+  margin-bottom: 24px;
+  padding: 18px;
+  border: 1px solid #dfe6dc;
+  border-radius: 12px;
+  background: #f5f8f1;
+}
+.admin-editor-guide h3 {
+  margin: 8px 0 6px;
+  font-size: 20px;
+  font-weight: 500;
+}
+.admin-editor-guide p {
+  max-width: 560px;
+  margin: 0;
+  color: #617066;
+  line-height: 1.55;
+}
+.admin-example-card {
+  display: grid;
+  gap: 5px;
+  align-content: center;
+  padding: 14px 16px;
+  border-left: 3px solid #8eaf91;
+  background: #fff;
+}
+.admin-example-card strong {
+  color: #6b806d;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.admin-example-card b {
+  font-family: Georgia, serif;
+  font-size: 19px;
+  font-weight: 400;
+}
+.admin-example-card span,
+.admin-example-card small {
+  color: #68766d;
+}
+.admin-example-card small {
+  line-height: 1.4;
+}
 .admin-editor h2,
 .admin-list-heading h2 {
   font-size: 25px;
@@ -142,6 +190,7 @@
 .admin-hint {
   font-weight: 400;
   color: #68766d;
+  font-size: 13px;
 }
 .admin-repeaters {
   display: grid;
@@ -341,10 +390,99 @@
   color: inherit;
   font-size: 14px;
 }
+.admin-modal-backdrop {
+  position: fixed;
+  z-index: 20;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 22px;
+  background: rgba(35, 61, 50, 0.38);
+  animation: admin-modal-fade 160ms ease-out;
+}
+.admin-confirm-modal {
+  width: min(100%, 460px);
+  padding: 28px;
+  border: 1px solid #ead8d3;
+  border-radius: 16px;
+  background: #fffdfb;
+  box-shadow: 0 24px 70px rgba(35, 61, 50, 0.2);
+  animation: admin-modal-rise 180ms ease-out;
+}
+.admin-confirm-icon {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 18px;
+  place-items: center;
+  border-radius: 50%;
+  background: #fff0ed;
+  color: #a32b20;
+}
+.admin-confirm-modal h2 {
+  margin: 9px 0 8px;
+  font-family: Georgia, serif;
+  font-size: 28px;
+  font-weight: 400;
+}
+.admin-confirm-modal p {
+  margin: 0;
+  color: #68766d;
+  line-height: 1.55;
+}
+.admin-confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 26px;
+}
+.admin-confirm-actions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.admin-confirm-cancel {
+  border: 1px solid #cbd5ca;
+  background: #fff;
+  color: #42594c;
+}
+.admin-confirm-delete {
+  border: 1px solid #a32b20;
+  background: #a32b20;
+  color: #fff;
+}
+.admin-confirm-actions button:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+@keyframes admin-modal-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes admin-modal-rise {
+  from { opacity: 0; transform: translateY(10px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .admin-modal-backdrop,
+  .admin-confirm-modal {
+    animation: none;
+  }
+}
 .admin-editor > .button {
   margin-top: 5px;
 }
 @media (max-width: 650px) {
+  .admin-editor-guide {
+    grid-template-columns: 1fr;
+  }
   .admin-shell {
     padding: 24px 14px 60px;
   }
