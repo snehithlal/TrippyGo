@@ -1,5 +1,4 @@
 import type { TourPackage } from "../types";
-import { packages as samplePackages, sortPackages } from "../data/packages";
 
 const apiUrl = import.meta.env.VITE_CONTENT_API_URL?.replace(/\/$/, "");
 
@@ -45,10 +44,8 @@ const request = async <T>(
   return result as { data: T; commitSha?: string };
 };
 
-export const getPackages = async (): Promise<TourPackage[]> => {
-  if (!apiUrl) return sortPackages(samplePackages);
-  return sortPackages((await request<TourPackage[]>("/packages")).data);
-};
+export const getPackages = async (): Promise<TourPackage[]> =>
+  (await request<TourPackage[]>("/packages")).data;
 
 export const getPackage = async (id: string): Promise<TourPackage> =>
   request<TourPackage>(`/packages/${encodeURIComponent(id)}`).then(

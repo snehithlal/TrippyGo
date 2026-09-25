@@ -1,0 +1,46 @@
+{
+  "id": "northeast-green-escape",
+  "title": "The green edge of India",
+  "destination": "North East India",
+  "category": "Nature",
+  "days": 6,
+  "nights": 5,
+  "badge": "Misty hills and monsoon mornings",
+  "route": "Shillong · Mawlynnong · Cherrapunji",
+  "price": 18999,
+  "displayOrder": 6,
+  "image": "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1100&q=85",
+  "alt": "Rolling green hills and cloud-covered valleys in Northeast India",
+  "description": "Slow mornings, cool air, and views that feel almost cinematic. This trip leans into the beauty and calm of the hills.",
+  "features": [
+    "Hill stays",
+    "Nature drives",
+    "Local culture"
+  ],
+  "itinerary": [
+    {
+      "title": "Settle into Shillong",
+      "text": "Arrive and ease into the city with a short evening walk and scenic food stops."
+    },
+    {
+      "title": "Clouds and viewpoints",
+      "text": "Spend the day exploring viewpoints, gardens, and quiet roads with flexible time for photos."
+    },
+    {
+      "title": "A village in the green",
+      "text": "Head to Mawlynnong and enjoy the slower rhythm of a village surrounded by nature."
+    },
+    {
+      "title": "Rainy-season mood",
+      "text": "Visit Cherrapunji or nearby sights depending on weather, road conditions, and your pace."
+    },
+    {
+      "title": "Take the scenic route",
+      "text": "Keep a day light for additional local stops, coffee breaks, and unplanned moments."
+    },
+    {
+      "title": "One last morning",
+      "text": "Enjoy a calm breakfast before your onward transfer."
+    }
+  ]
+}

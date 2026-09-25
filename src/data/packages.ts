@@ -2,9 +2,18 @@ import kerala from "../../data/packages/kerala-slow-trail.json";
 import wayanad from "../../data/packages/wayanad-weekend.json";
 import goa from "../../data/packages/goa-coast.json";
 import manali from "../../data/packages/manali-mountains.json";
+import rajasthan from "../../data/packages/rajasthan-royal-route.json";
+import northeast from "../../data/packages/northeast-green-escape.json";
 import type { TourPackage } from "../types";
 
-export const packages: TourPackage[] = [kerala, wayanad, goa, manali];
+export const packages: TourPackage[] = [
+  kerala,
+  wayanad,
+  goa,
+  manali,
+  rajasthan,
+  northeast,
+];
 export const sortPackages = (items: TourPackage[]) =>
   items
     .map((item, index) => ({ item, index }))
