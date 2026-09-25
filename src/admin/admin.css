@@ -81,6 +81,12 @@
 .admin-fields textarea {
   resize: vertical;
 }
+.admin-fields label.admin-invalid input,
+.admin-fields label.admin-invalid textarea,
+.admin-fields label.admin-invalid .admin-upload {
+  border-color: #b94b40;
+  box-shadow: 0 0 0 1px #b94b40;
+}
 .admin-editor {
   padding: 26px;
   background: #fff;
@@ -88,6 +94,20 @@
 }
 .admin-editor-heading {
   margin-bottom: 22px;
+}
+.admin-validation-summary {
+  margin-bottom: 20px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: #fff0ed;
+  color: #8a2d25;
+}
+.admin-validation-summary ul {
+  margin: 8px 0 0;
+  padding-left: 20px;
+}
+.admin-validation-summary li + li {
+  margin-top: 4px;
 }
 .admin-editor h2,
 .admin-list-heading h2 {
@@ -173,6 +193,20 @@
 .admin-list-heading {
   margin-bottom: 15px;
 }
+.admin-list-heading h2 {
+  margin: 0;
+}
+.admin-order-hint {
+  margin: 6px 0 0;
+  color: #69756c;
+  font-size: 14px;
+}
+.admin-list-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+}
 .admin-list {
   display: grid;
   gap: 12px;
@@ -184,6 +218,20 @@
   padding: 14px;
   background: #fff;
   border-radius: 14px;
+}
+.admin-card.is-dragging {
+  opacity: 0.45;
+}
+.admin-drag-handle {
+  display: inline-flex;
+  align-items: center;
+  align-self: stretch;
+  color: #879187;
+  cursor: grab;
+  touch-action: none;
+}
+.admin-drag-handle:active {
+  cursor: grabbing;
 }
 .admin-card > img {
   width: 82px;
@@ -214,6 +262,11 @@
 }
 .admin-card-actions button:last-child {
   color: #9b3930;
+}
+.admin-card-actions button:disabled,
+.admin-list-controls button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
 }
 .admin-error,
 .admin-success {
@@ -276,17 +329,21 @@
     flex-wrap: wrap;
   }
   .admin-card-copy {
-    min-width: calc(100% - 110px);
+    min-width: calc(100% - 135px);
   }
   .admin-card-actions {
     width: 100%;
-    padding-left: 94px;
+    padding-left: 118px;
   }
   .admin-header {
     align-items: flex-start;
   }
   .admin-list-heading {
     align-items: flex-start;
+    flex-direction: column;
+  }
+  .admin-list-controls {
+    justify-content: flex-start;
   }
   .admin-deploy {
     align-items: flex-start;

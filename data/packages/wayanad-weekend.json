@@ -12,11 +12,7 @@
   "image": "./images/woodland-stay.webp",
   "alt": "A-frame cabin surrounded by lush greenery",
   "description": "Switch off the notifications. Wake up to birdsong, explore the green outdoors, and let the weekend breathe.",
-  "features": [
-    "Nature stays",
-    "Flexible pace",
-    "Scenic drives"
-  ],
+  "features": ["Nature stays", "Flexible pace", "Scenic drives"],
   "itinerary": [
     {
       "title": "Check in. Tune out.",

@@ -12,11 +12,7 @@
   "image": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1100&q=85",
   "alt": "Clear ocean water and a sunlit beach",
   "description": "Beach mornings, colourful neighbourhoods, and evenings with nowhere else to be. Take the coast at your own pace.",
-  "features": [
-    "Coastal stays",
-    "Leisure time",
-    "Local exploring"
-  ],
+  "features": ["Coastal stays", "Leisure time", "Local exploring"],
   "itinerary": [
     {
       "title": "Hello, sea breeze",

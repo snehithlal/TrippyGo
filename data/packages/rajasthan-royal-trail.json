@@ -1,0 +1,47 @@
+{
+  "id": "rajasthan-royal-trail",
+  "title": "The Rajasthan royal trail",
+  "destination": "Rajasthan",
+  "category": "Culture",
+  "days": 6,
+  "nights": 5,
+  "badge": "Forts, colour and desert skies",
+  "route": "Jaipur · Jodhpur · Jaisalmer",
+  "price": 21999,
+  "displayOrder": 5,
+  "image": "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1100&q=85",
+  "alt": "Amber Fort overlooking the Aravalli hills in Rajasthan",
+  "description": "Pink-city mornings, blue lanes, and one unforgettable desert sunset. A colourful route through Rajasthan's most-loved corners.",
+  "fullDescription": "Take in the grand forts, old markets, and warm desert evenings of Rajasthan at a relaxed pace. This route balances landmark moments with time to wander, shop, and settle into each city.",
+  "features": [
+    "Heritage stays",
+    "Guided city walks",
+    "Desert sunset experience"
+  ],
+  "itinerary": [
+    {
+      "title": "Arrive in the Pink City",
+      "text": "Check into Jaipur and spend the evening settling in with a relaxed local dinner."
+    },
+    {
+      "title": "Forts and façades",
+      "text": "Explore Amber Fort and Jaipur's historic streets, with time for cafés and local crafts."
+    },
+    {
+      "title": "On to the Blue City",
+      "text": "Travel to Jodhpur and enjoy an unhurried evening around the old quarter."
+    },
+    {
+      "title": "A city above the rooftops",
+      "text": "Visit Mehrangarh Fort and wander the blue lanes below it at your own pace."
+    },
+    {
+      "title": "Golden hour in Jaisalmer",
+      "text": "Travel west to Jaisalmer for a desert sunset and an evening under wide open skies."
+    },
+    {
+      "title": "One last chai",
+      "text": "Enjoy breakfast before your onward transfer, taking a little Rajasthan colour with you."
+    }
+  ]
+}

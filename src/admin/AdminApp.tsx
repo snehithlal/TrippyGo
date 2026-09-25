@@ -1,10 +1,14 @@
 import { useEffect, useState, type FormEvent } from "react";
 import {
   ArrowLeft,
+  ChevronDown,
+  ChevronUp,
+  GripVertical,
   ImagePlus,
   LogOut,
   Pencil,
   Plus,
+  Save,
   Trash2,
 } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -17,21 +21,26 @@ import {
   getSession,
   login,
   logout,
+  updatePackageOrder,
   updatePackage,
   type DeploymentStatus,
 } from "../services/packageRepository";
-import { formatPrice } from "../data/packages";
+import { formatPrice, sortPackages } from "../data/packages";
 import type { TourPackage } from "../types";
+import {
+  validatePackageDraft,
+  type PackageValidationErrors,
+} from "./packageValidation";
 import "./admin.css";
 
-const blankPackage = (): TourPackage => ({
+const blankPackage = (displayOrder: number): TourPackage => ({
   id: "",
   title: "",
   destination: "",
   category: "Nature",
   days: 1,
   nights: 0,
-  displayOrder: 1,
+  displayOrder,
   badge: "",
   route: "",
   price: 0,
@@ -56,6 +65,8 @@ const AdminApp = () => {
   const [deploymentCommit, setDeploymentCommit] = useState("");
   const [deployment, setDeployment] = useState<DeploymentStatus | null>(null);
   const [deploymentError, setDeploymentError] = useState("");
+  const [draggedPackageId, setDraggedPackageId] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<PackageValidationErrors>({});
 
   const refresh = async () => setItems(await getPackages());
 
@@ -135,43 +146,12 @@ const AdminApp = () => {
     setError("");
     setMessage("");
     try {
-      if (!editing.image && !image)
-        throw new Error("Choose a cover image before saving.");
-      if (image) {
-        if (!["image/jpeg", "image/png", "image/webp"].includes(image.type))
-          throw new Error("Use a JPEG, PNG or WebP image.");
-        if (image.size > 3 * 1024 * 1024)
-          throw new Error("Images must be 3 MB or smaller.");
+      const validationErrors = validatePackageDraft(editing, image);
+      setFieldErrors(validationErrors);
+      if (Object.keys(validationErrors).length > 0) {
+        setError("Review the highlighted package fields before saving.");
+        return;
       }
-      if (!editing.title.trim() || !editing.destination.trim())
-        throw new Error("Enter a package name and location.");
-      if (!editing.description.trim())
-        throw new Error("Enter a short description.");
-      if (
-        !editing.category.trim() ||
-        !editing.route.trim() ||
-        !editing.alt.trim()
-      )
-        throw new Error("Complete the package details before saving.");
-      if (!Number.isInteger(editing.price) || editing.price < 0)
-        throw new Error("Enter a valid price.");
-      if (!Number.isInteger(editing.days) || editing.days < 1)
-        throw new Error("Enter a valid duration.");
-      const displayOrder = editing.displayOrder;
-      if (
-        typeof displayOrder !== "number" ||
-        !Number.isInteger(displayOrder) ||
-        displayOrder < 1 ||
-        displayOrder > 9999
-      )
-        throw new Error("Enter a listing priority from 1 to 9999.");
-      if (editing.features.some((feature) => !feature.trim()))
-        throw new Error("Complete or remove each highlight.");
-      if (
-        editing.itinerary.length === 0 ||
-        editing.itinerary.some((day) => !day.title.trim() || !day.text.trim())
-      )
-        throw new Error("Add and complete at least one itinerary day.");
       const payload = {
         ...editing,
         id:
@@ -188,6 +168,7 @@ const AdminApp = () => {
         : await createPackage(payload, image);
       setEditing(null);
       setImage(undefined);
+      setFieldErrors({});
       followCommit(saved.commitSha);
       setMessage(`Saved “${saved.data?.title ?? editing.title}”.`);
       await refresh();
@@ -223,6 +204,45 @@ const AdminApp = () => {
     }
   };
 
+  const movePackage = (packageId: string, targetId: string) => {
+    if (packageId === targetId) return;
+    setItems((current) => {
+      const fromIndex = current.findIndex((item) => item.id === packageId);
+      const targetIndex = current.findIndex((item) => item.id === targetId);
+      if (fromIndex < 0 || targetIndex < 0) return current;
+      const next = [...current];
+      const [moved] = next.splice(fromIndex, 1);
+      next.splice(targetIndex, 0, moved);
+      return next;
+    });
+  };
+
+  const movePackageBy = (packageId: string, direction: -1 | 1) => {
+    const currentIndex = items.findIndex((item) => item.id === packageId);
+    const target = items[currentIndex + direction];
+    if (target) movePackage(packageId, target.id);
+  };
+
+  const savePackageOrder = async () => {
+    setBusy(true);
+    setError("");
+    setMessage("");
+    try {
+      const result = await updatePackageOrder(items.map((item) => item.id));
+      setItems(sortPackages(result.data));
+      followCommit(result.commitSha);
+      setMessage("Package order saved.");
+    } catch (reason) {
+      setError(
+        reason instanceof Error
+          ? reason.message
+          : "Unable to save package order.",
+      );
+    } finally {
+      setBusy(false);
+    }
+  };
+
   const signOut = async () => {
     await logout().catch(() => undefined);
     setAuthenticated(false);
@@ -232,7 +252,18 @@ const AdminApp = () => {
   const change = (
     key: keyof TourPackage,
     value: TourPackage[keyof TourPackage],
-  ) => setEditing((current) => current && { ...current, [key]: value });
+  ) => {
+    setEditing((current) => current && { ...current, [key]: value });
+    setFieldErrors((current) => {
+      const next = { ...current };
+      delete next[key];
+      return next;
+    });
+  };
+
+  const orderChanged = items.some(
+    (item, index) => item.displayOrder !== index + 1,
+  );
 
   if (checking) return <main className="admin-shell">Checking session…</main>;
   if (!authenticated)
@@ -333,8 +364,20 @@ const AdminApp = () => {
                 Cancel
               </button>
             </div>
+            {Object.keys(fieldErrors).length > 0 && (
+              <div className="admin-validation-summary" role="alert">
+                <strong>Complete these fields:</strong>
+                <ul>
+                  {Object.entries(fieldErrors).map(([field, message]) => (
+                    <li key={field}>{message}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
             <div className="admin-fields">
-              <label>
+              <label
+                className={fieldErrors.title ? "admin-invalid" : undefined}
+              >
                 Package name
                 <input
                   required
@@ -343,7 +386,11 @@ const AdminApp = () => {
                   onChange={(event) => change("title", event.target.value)}
                 />
               </label>
-              <label>
+              <label
+                className={
+                  fieldErrors.destination ? "admin-invalid" : undefined
+                }
+              >
                 Location
                 <input
                   required
@@ -354,7 +401,9 @@ const AdminApp = () => {
                   }
                 />
               </label>
-              <label>
+              <label
+                className={fieldErrors.category ? "admin-invalid" : undefined}
+              >
                 Category
                 <input
                   required
@@ -363,7 +412,9 @@ const AdminApp = () => {
                   onChange={(event) => change("category", event.target.value)}
                 />
               </label>
-              <label>
+              <label
+                className={fieldErrors.price ? "admin-invalid" : undefined}
+              >
                 Price (INR)
                 <input
                   required
@@ -376,7 +427,7 @@ const AdminApp = () => {
                   }
                 />
               </label>
-              <label>
+              <label className={fieldErrors.days ? "admin-invalid" : undefined}>
                 Days
                 <input
                   required
@@ -389,7 +440,9 @@ const AdminApp = () => {
                   }
                 />
               </label>
-              <label>
+              <label
+                className={fieldErrors.nights ? "admin-invalid" : undefined}
+              >
                 Nights
                 <input
                   required
@@ -402,7 +455,11 @@ const AdminApp = () => {
                   }
                 />
               </label>
-              <label>
+              <label
+                className={
+                  fieldErrors.displayOrder ? "admin-invalid" : undefined
+                }
+              >
                 Listing priority
                 <input
                   required
@@ -417,7 +474,9 @@ const AdminApp = () => {
                 />
                 <span className="admin-hint">Lower numbers appear first</span>
               </label>
-              <label className="admin-wide">
+              <label
+                className={`admin-wide${fieldErrors.route ? " admin-invalid" : ""}`}
+              >
                 Route
                 <input
                   required
@@ -425,7 +484,9 @@ const AdminApp = () => {
                   onChange={(event) => change("route", event.target.value)}
                 />
               </label>
-              <label className="admin-wide">
+              <label
+                className={`admin-wide${fieldErrors.description ? " admin-invalid" : ""}`}
+              >
                 Short description
                 <textarea
                   required
@@ -437,7 +498,9 @@ const AdminApp = () => {
                   }
                 />
               </label>
-              <label className="admin-wide">
+              <label
+                className={`admin-wide${fieldErrors.fullDescription ? " admin-invalid" : ""}`}
+              >
                 Full description
                 <textarea
                   rows={5}
@@ -447,14 +510,16 @@ const AdminApp = () => {
                   }
                 />
               </label>
-              <label>
+              <label
+                className={fieldErrors.badge ? "admin-invalid" : undefined}
+              >
                 Badge
                 <input
                   value={editing.badge}
                   onChange={(event) => change("badge", event.target.value)}
                 />
               </label>
-              <label>
+              <label className={fieldErrors.alt ? "admin-invalid" : undefined}>
                 Image alt text
                 <input
                   required
@@ -462,7 +527,9 @@ const AdminApp = () => {
                   onChange={(event) => change("alt", event.target.value)}
                 />
               </label>
-              <label className="admin-wide">
+              <label
+                className={`admin-wide${fieldErrors.features ? " admin-invalid" : ""}`}
+              >
                 Highlights
                 <div className="admin-repeaters">
                   {editing.features.map((feature, index) => (
@@ -509,7 +576,9 @@ const AdminApp = () => {
                   </button>
                 </div>
               </label>
-              <label className="admin-wide">
+              <label
+                className={`admin-wide${fieldErrors.itinerary ? " admin-invalid" : ""}`}
+              >
                 Day-by-day itinerary
                 <div className="admin-repeaters">
                   {editing.itinerary.map((day, index) => (
@@ -576,7 +645,9 @@ const AdminApp = () => {
                   </button>
                 </div>
               </label>
-              <label className="admin-wide">
+              <label
+                className={`admin-wide${fieldErrors.image ? " admin-invalid" : ""}`}
+              >
                 Cover image{" "}
                 <span className="admin-hint">
                   JPEG, PNG or WebP, up to 3 MB
@@ -587,7 +658,14 @@ const AdminApp = () => {
                   <input
                     type="file"
                     accept="image/jpeg,image/png,image/webp"
-                    onChange={(event) => setImage(event.target.files?.[0])}
+                    onChange={(event) => {
+                      setImage(event.target.files?.[0]);
+                      setFieldErrors((current) => {
+                        const next = { ...current };
+                        delete next.image;
+                        return next;
+                      });
+                    }}
                   />
                 </span>
                 {(imagePreview || editing.image) && (
@@ -611,37 +689,92 @@ const AdminApp = () => {
         ) : (
           <>
             <div className="admin-list-heading">
-              <h2>
-                {items.length} {items.length === 1 ? "package" : "packages"}
-              </h2>
-              <button
-                className={cx("button", "button-green")}
-                onClick={() => {
-                  setError("");
-                  setImage(undefined);
-                  setEditing(blankPackage());
-                }}
-              >
-                <Plus size={18} /> Add package
-              </button>
+              <div>
+                <h2>
+                  {items.length} {items.length === 1 ? "package" : "packages"}
+                </h2>
+                <p className="admin-order-hint">
+                  Drag packages into position, then save the order.
+                </p>
+              </div>
+              <div className="admin-list-controls">
+                <button
+                  className={cx("button", "button-green")}
+                  onClick={() => void savePackageOrder()}
+                  disabled={busy || !orderChanged}
+                >
+                  <Save size={18} /> Save order
+                </button>
+                <button
+                  className={cx("button", "button-green")}
+                  onClick={() => {
+                    setError("");
+                    setImage(undefined);
+                    setFieldErrors({});
+                    setEditing(blankPackage(items.length + 1));
+                  }}
+                >
+                  <Plus size={18} /> Add package
+                </button>
+              </div>
             </div>
             <div className="admin-list">
-              {items.map((item) => (
-                <article className="admin-card" key={item.id}>
+              {items.map((item, index) => (
+                <article
+                  className={
+                    draggedPackageId === item.id
+                      ? "admin-card is-dragging"
+                      : "admin-card"
+                  }
+                  key={item.id}
+                  onDragOver={(event) => event.preventDefault()}
+                  onDrop={(event) => {
+                    event.preventDefault();
+                    if (draggedPackageId)
+                      movePackage(draggedPackageId, item.id);
+                    setDraggedPackageId(null);
+                  }}
+                >
+                  <span
+                    className="admin-drag-handle"
+                    draggable
+                    role="button"
+                    aria-label={`Drag ${item.title} to change its position`}
+                    onDragStart={() => setDraggedPackageId(item.id)}
+                    onDragEnd={() => setDraggedPackageId(null)}
+                  >
+                    <GripVertical size={19} />
+                  </span>
                   <img src={item.image} alt="" />
                   <div className="admin-card-copy">
                     <h3>{item.title}</h3>
                     <p>
-                      {item.destination} · {formatPrice(item.price)} ·{" "}
-                      {item.days} days / {item.nights} nights
+                      #{index + 1} · {item.destination} ·{" "}
+                      {formatPrice(item.price)} · {item.days} days /{" "}
+                      {item.nights} nights
                     </p>
                   </div>
                   <div className="admin-card-actions">
+                    <button
+                      aria-label={`Move ${item.title} up`}
+                      onClick={() => movePackageBy(item.id, -1)}
+                      disabled={index === 0 || busy}
+                    >
+                      <ChevronUp size={17} /> Move up
+                    </button>
+                    <button
+                      aria-label={`Move ${item.title} down`}
+                      onClick={() => movePackageBy(item.id, 1)}
+                      disabled={index === items.length - 1 || busy}
+                    >
+                      <ChevronDown size={17} /> Move down
+                    </button>
                     <button
                       aria-label={`Edit ${item.title}`}
                       onClick={() => {
                         setError("");
                         setImage(undefined);
+                        setFieldErrors({});
                         setEditing({ ...item });
                       }}
                     >

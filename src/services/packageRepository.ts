@@ -79,6 +79,14 @@ export const deletePackage = async (id: string): Promise<PackageMutation> =>
     method: "DELETE",
   });
 
+export const updatePackageOrder = async (
+  packageIds: string[],
+): Promise<{ data: TourPackage[]; commitSha: string }> =>
+  mutationRequest<TourPackage[]>("/packages/order", {
+    method: "POST",
+    body: JSON.stringify({ packageIds }),
+  });
+
 export const getDeploymentStatus = async (
   sha: string,
 ): Promise<DeploymentStatus> =>

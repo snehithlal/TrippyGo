@@ -10,7 +10,12 @@ type Changes = {
   delete?: boolean;
 }[];
 export type ApiRequest = IncomingMessage & {
-  body?: { password?: unknown; package?: unknown; image?: UploadedImage };
+  body?: {
+    password?: unknown;
+    package?: unknown;
+    image?: UploadedImage;
+    packageIds?: unknown;
+  };
 };
 export type ApiResponse = ServerResponse & {
   status: (statusCode: number) => ApiResponse;
@@ -411,6 +416,48 @@ const handlePackages = async (
   return json(res, 405, { error: "Method not allowed." });
 };
 
+const handlePackageOrder = async (req: ApiRequest, res: ApiResponse) => {
+  if (req.method !== "POST") {
+    res.setHeader("Allow", "POST");
+    return json(res, 405, { error: "Method not allowed." });
+  }
+  if (!isAuthenticated(req))
+    return json(res, 401, {
+      error: "Your session has expired. Sign in again.",
+    });
+  const packageIds = req.body?.packageIds;
+  if (
+    !Array.isArray(packageIds) ||
+    packageIds.length === 0 ||
+    packageIds.some((id) => typeof id !== "string") ||
+    new Set(packageIds).size !== packageIds.length
+  )
+    throw new RequestError("Package order is invalid.");
+  const items = await readPackages();
+  if (
+    packageIds.length !== items.length ||
+    packageIds.some((id) => !items.some((item) => item.id === id))
+  )
+    throw new RequestError("Package order does not match the current catalog.");
+  const reordered = packageIds.map((id, index) => ({
+    ...items.find((item) => item.id === id)!,
+    displayOrder: index + 1,
+  }));
+  const changes: Changes = reordered
+    .filter(
+      (item) =>
+        items.find((current) => current.id === item.id)?.displayOrder !==
+        item.displayOrder,
+    )
+    .map((item) => ({
+      path: packagePath(item.id),
+      content: JSON.stringify(item, null, 2),
+    }));
+  if (changes.length === 0) return json(res, 200, { data: reordered });
+  const commitSha = await commitChanges(changes, "Reorder travel packages");
+  return json(res, 200, { data: reordered, commitSha });
+};
+
 const handler = async (req: ApiRequest, res: ApiResponse) => {
   const origin = req.headers.origin;
   const allowedOrigin = process.env.ALLOWED_ORIGIN || "http://localhost:5173";
@@ -465,6 +512,8 @@ const handler = async (req: ApiRequest, res: ApiResponse) => {
       if (!sha) throw new RequestError("A commit SHA is required.");
       return json(res, 200, { data: await getDeploymentStatus(sha) });
     }
+    if (pathname === "/packages/order")
+      return await handlePackageOrder(req, res);
     if (pathname === "/packages" || pathname.startsWith("/packages/"))
       return await handlePackages(
         req,

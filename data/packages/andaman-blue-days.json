@@ -1,0 +1,39 @@
+{
+  "id": "andaman-blue-days",
+  "title": "A few blue days",
+  "destination": "Andaman Islands",
+  "category": "Beach",
+  "days": 5,
+  "nights": 4,
+  "badge": "Clear water, slower time",
+  "route": "Port Blair · Havelock · Neil Island",
+  "price": 27999,
+  "displayOrder": 8,
+  "image": "https://images.unsplash.com/photo-1505881502353-a1986add3762?auto=format&fit=crop&w=1100&q=85",
+  "alt": "Turquoise water meeting a palm-lined beach in the Andaman Islands",
+  "description": "Ferry rides, quiet beaches, and clear-water afternoons. An island break made for slowing all the way down.",
+  "fullDescription": "Spend a few days moving gently between the islands, with easy ferry connections, beach time, and optional water experiences. The route is designed to leave room for rest as well as adventure.",
+  "features": ["Island stays", "Ferry transfers", "Optional water activities"],
+  "itinerary": [
+    {
+      "title": "Arrive by the sea",
+      "text": "Land in Port Blair and take a relaxed evening to settle in."
+    },
+    {
+      "title": "Ferry to Havelock",
+      "text": "Travel to Havelock and spend the afternoon by the beach."
+    },
+    {
+      "title": "Make the water your plan",
+      "text": "Choose a quiet beach day or discuss available snorkelling and diving experiences."
+    },
+    {
+      "title": "A quieter island",
+      "text": "Move to Neil Island for a slower pace and a sunset walk along the shore."
+    },
+    {
+      "title": "Until the next tide",
+      "text": "Return to Port Blair around your onward travel plans."
+    }
+  ]
+}

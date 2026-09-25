@@ -12,11 +12,7 @@
   "image": "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=1100&q=85",
   "alt": "Green Kerala landscape with palm-lined waterways",
   "description": "Tea-scented mornings, a day on the water, and a little old-world charm. A gentle introduction to Kerala.",
-  "features": [
-    "Scenic stays",
-    "Private transfers",
-    "Local experiences"
-  ],
+  "features": ["Scenic stays", "Private transfers", "Local experiences"],
   "itinerary": [
     {
       "title": "The road to the hills",
