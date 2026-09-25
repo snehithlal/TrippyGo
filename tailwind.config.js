@@ -2,10 +2,10 @@ export default {
   content: ['./index.html', './src/**/*.{js,jsx}'],
   theme: {
     extend: {
-      colors: { cream: '#f8f0e0', forest: '#263b27', gold: '#f5b82e' },
+      colors: { cream: '#faf8f1', forest: '#243f32', gold: '#e6bc72' },
       fontFamily: {
         sans: ['DM Sans', 'sans-serif'],
-        display: ['Barlow Condensed', 'Impact', 'sans-serif'],
+        display: ['DM Serif Display', 'Georgia', 'serif'],
         handwritten: ['Caveat', 'cursive'],
       },
     },

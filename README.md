@@ -22,7 +22,7 @@ npm run preview
 
 Edit `src/data/content.js`. The `trips` array controls the cards, destination selector, filters, and itinerary dialogs. Each trip needs a unique `id`, title, destination, region, category, duration, tag, image, alt text, description, highlights, and itinerary. Current categories are `Mountains`, `Backwaters`, and `Beaches`; add new filter options in `src/App.jsx` if you introduce another category.
 
-The current trips are sample inspiration, not confirmed offers. Prices are intentionally quote-only. Confirm descriptions and itineraries with the owner before launch. No fabricated reviews, ratings, booking counts, phone numbers, or email addresses are used.
+The current trips are sample inspiration, not confirmed offers. Destination inspiration cards remain quote-only; the separate package section has standard per-person prices without sample labels. Confirm descriptions and itineraries with the owner before launch. No fabricated reviews, ratings, booking counts, phone numbers, or email addresses are used.
 
 Update `site.instagram`, `site.handle`, `site.whatsapp` (international digits only), `site.phones`, and `site.email`. The current contact details are transcribed from the supplied Instagram profile: +91 80752 95734, +91 70251 93391, and trippygo.in@gmail.com. With WhatsApp configured, enquiry links open a prefilled WhatsApp conversation. Otherwise they open Instagram, and itinerary dialogs offer an enquiry message to copy and paste. Opening a link does not send a message or make a booking. There is no form that silently discards customer data.
 
@@ -46,3 +46,17 @@ This workspace did not contain the supplied reference workflow directory, so a s
 ## Accessibility and behaviour
 
 Includes keyboard-visible focus, a skip link, native modal focus handling and Escape dismissal, labelled filters and selectors, expandable FAQs, reduced-motion support, and mobile layouts. Trip availability and booking confirmation happen through a direct conversation with the business.
+
+## Tour packages
+
+Edit `src/data/packages.js` to add, remove, or change packages. Each entry includes a unique ID, destination, category, route, days/nights, photo, description, feature summary, and one itinerary entry per day. Category filters are generated from the data automatically.
+
+Each package has a `price` in INR per person. The initial amounts are design placeholders; replace `price` with the business’s final standard rate. At the owner’s request, the public page and enquiry messages display amounts without sample labels. These are set standard-package prices, not bargaining or “starting from” prices. Confirm dates, occupancy, taxes, inclusions, and itineraries before publishing confirmed offers. Customised stays, duration, and experiences are priced separately.
+
+Visitors can open a package, read its itinerary, choose a preferred date and group size, optionally request customisation, and open WhatsApp with a prepared enquiry. The message distinguishes standard bookings from custom plans. This does not send a message automatically, collect payment, or store personal details on a server.
+
+The package UI lives in `src/components/Packages.jsx` and `Packages.css`. The latest visual refinements are in `src/Refinements.css`. Global CSS must load before component styles (`src/main.jsx`).
+
+## Animation
+
+`src/hooks/usePageMotion.js` adds one-time scroll reveals using IntersectionObserver and the Web Animations API. Content stays visible if these APIs are unavailable. CSS adds entrance motion, card transitions, photo zoom, and dialog transitions. All animation respects `prefers-reduced-motion`; no animation dependency or autoplaying carousel is required.
