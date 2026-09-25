@@ -10,7 +10,22 @@ cp .env.example .env.local
 npm run dev
 ```
 
-`npm run build` runs the strict TypeScript check and creates the production site. `npm run typecheck` runs the check on its own. The admin API runs separately with the Vercel CLI (`vercel dev`); configure the server-only values below in Vercel's local environment or `.env.local`. Never commit real credentials.
+`npm run build` runs the strict TypeScript check and creates the production site. `npm run typecheck` runs the check on its own.
+
+### Test the admin without Vercel
+
+For frontend and admin UI development, use the browser-only local adapter:
+
+```sh
+cp .env.example .env.local
+npm run dev
+```
+
+Open the configured admin route, such as `http://localhost:5173/admin`, and sign in with the value in `VITE_LOCAL_ADMIN_PASSWORD` (`admin` in the example). Package create, edit, delete, reorder, image preview, and deployment-status states are stored in this browser's `localStorage`; they do not write to GitHub or Vercel. To restore the committed sample packages, clear the `trippygo.local-packages` and `trippygo.local-admin-session` entries in browser storage, then reload.
+
+Set `VITE_LOCAL_ADMIN=false` and configure `VITE_CONTENT_API_URL` when testing against the real API. The local adapter is intended only for development and must not be enabled in a production build.
+
+For testing the real serverless API locally, use the Vercel CLI (`vercel dev`) and configure the server-only values below in Vercel's local environment or `.env.local`. Never commit real credentials.
 
 ## Project structure
 
