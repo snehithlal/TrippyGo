@@ -66,6 +66,12 @@ const AdminApp = () => {
   const [deployment, setDeployment] = useState<DeploymentStatus | null>(null);
   const [deploymentError, setDeploymentError] = useState("");
   const [draggedPackageId, setDraggedPackageId] = useState<string | null>(null);
+  const [dragOverPackageId, setDragOverPackageId] = useState<string | null>(
+    null,
+  );
+  const [settlingPackageId, setSettlingPackageId] = useState<string | null>(
+    null,
+  );
   const [fieldErrors, setFieldErrors] = useState<PackageValidationErrors>({});
 
   const refresh = async () => setItems(await getPackages());
@@ -215,6 +221,8 @@ const AdminApp = () => {
       next.splice(targetIndex, 0, moved);
       return next;
     });
+    setSettlingPackageId(packageId);
+    window.setTimeout(() => setSettlingPackageId(null), 280);
   };
 
   const movePackageBy = (packageId: string, direction: -1 | 1) => {
@@ -721,18 +729,19 @@ const AdminApp = () => {
             <div className="admin-list">
               {items.map((item, index) => (
                 <article
-                  className={
-                    draggedPackageId === item.id
-                      ? "admin-card is-dragging"
-                      : "admin-card"
-                  }
+                  className={`admin-card${draggedPackageId === item.id ? " is-dragging" : ""}${dragOverPackageId === item.id && draggedPackageId !== item.id ? " is-drop-target" : ""}${settlingPackageId === item.id ? " is-settling" : ""}`}
                   key={item.id}
-                  onDragOver={(event) => event.preventDefault()}
+                  onDragOver={(event) => {
+                    event.preventDefault();
+                    if (draggedPackageId !== item.id)
+                      setDragOverPackageId(item.id);
+                  }}
                   onDrop={(event) => {
                     event.preventDefault();
                     if (draggedPackageId)
                       movePackage(draggedPackageId, item.id);
                     setDraggedPackageId(null);
+                    setDragOverPackageId(null);
                   }}
                 >
                   <span
@@ -740,8 +749,14 @@ const AdminApp = () => {
                     draggable
                     role="button"
                     aria-label={`Drag ${item.title} to change its position`}
-                    onDragStart={() => setDraggedPackageId(item.id)}
-                    onDragEnd={() => setDraggedPackageId(null)}
+                    onDragStart={() => {
+                      setDraggedPackageId(item.id);
+                      setDragOverPackageId(null);
+                    }}
+                    onDragEnd={() => {
+                      setDraggedPackageId(null);
+                      setDragOverPackageId(null);
+                    }}
                   >
                     <GripVertical size={19} />
                   </span>

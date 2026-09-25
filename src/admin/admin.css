@@ -218,9 +218,37 @@
   padding: 14px;
   background: #fff;
   border-radius: 14px;
+  border: 1px solid transparent;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    opacity 180ms ease;
+  will-change: transform;
 }
 .admin-card.is-dragging {
-  opacity: 0.45;
+  opacity: 0.42;
+  transform: scale(0.985) rotate(0.4deg);
+  box-shadow: 0 12px 24px rgba(37, 52, 41, 0.12);
+}
+.admin-card.is-drop-target {
+  border-color: #6f9f77;
+  transform: translateY(5px);
+  box-shadow: 0 8px 18px rgba(54, 91, 61, 0.12);
+}
+.admin-card.is-settling {
+  animation: admin-card-settle 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes admin-card-settle {
+  0% {
+    transform: translateY(-8px) scale(0.985);
+  }
+  60% {
+    transform: translateY(2px) scale(1.01);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
 }
 .admin-drag-handle {
   display: inline-flex;
@@ -232,6 +260,14 @@
 }
 .admin-drag-handle:active {
   cursor: grabbing;
+}
+@media (prefers-reduced-motion: reduce) {
+  .admin-card {
+    transition: none;
+  }
+  .admin-card.is-settling {
+    animation: none;
+  }
 }
 .admin-card > img {
   width: 82px;
