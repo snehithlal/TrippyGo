@@ -314,6 +314,10 @@ const handlePackages = async (
   res: ApiResponse,
   id?: string,
 ) => {
+  if (!isAuthenticated(req))
+    return json(res, 401, {
+      error: "Your session has expired. Sign in again.",
+    });
   if (req.method === "GET") {
     if (id) {
       const items = await readPackages();
@@ -324,10 +328,6 @@ const handlePackages = async (
     }
     return json(res, 200, { data: await readPackages() });
   }
-  if (!isAuthenticated(req))
-    return json(res, 401, {
-      error: "Your session has expired. Sign in again.",
-    });
   const items = await readPackages();
   if (req.method === "POST" && !id) {
     const body = req.body as { package?: unknown; image?: UploadedImage };
