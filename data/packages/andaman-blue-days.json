@@ -8,12 +8,16 @@
   "badge": "Clear water, slower time",
   "route": "Port Blair · Havelock · Neil Island",
   "price": 27999,
-  "displayOrder": 8,
+  "displayOrder": 6,
   "image": "https://images.unsplash.com/photo-1505881502353-a1986add3762?auto=format&fit=crop&w=1100&q=85",
   "alt": "Turquoise water meeting a palm-lined beach in the Andaman Islands",
   "description": "Ferry rides, quiet beaches, and clear-water afternoons. An island break made for slowing all the way down.",
   "fullDescription": "Spend a few days moving gently between the islands, with easy ferry connections, beach time, and optional water experiences. The route is designed to leave room for rest as well as adventure.",
-  "features": ["Island stays", "Ferry transfers", "Optional water activities"],
+  "features": [
+    "Island stays",
+    "Ferry transfers",
+    "Optional water activities"
+  ],
   "itinerary": [
     {
       "title": "Arrive by the sea",

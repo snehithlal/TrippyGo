@@ -8,11 +8,15 @@
   "badge": "Take the high road",
   "route": "Manali · Mountain valleys · Village walks",
   "price": 16999,
-  "displayOrder": 4,
+  "displayOrder": 5,
   "image": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1100&q=85",
   "alt": "Dramatic mountain peaks beneath clouds",
   "description": "Crisp air, winding roads, and mountain mornings. Build a Himalayan escape around the season and your sense of adventure.",
-  "features": ["Mountain stays", "Valley drives", "Seasonal activities"],
+  "features": [
+    "Mountain stays",
+    "Valley drives",
+    "Seasonal activities"
+  ],
   "itinerary": [
     {
       "title": "Into the mountains",
