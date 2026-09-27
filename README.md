@@ -15,6 +15,7 @@ Visit us on [Instagram](https://www.instagram.com/_trippy_go/) or [message us on
 - [Run the website locally](docs/local-development.md)
 - [Development and deployment guide](docs/development.md)
 - [Set up the Vercel API](docs/vercel-setup.md)
+- [Set up a custom domain](docs/custom-domain-setup.md)
 - [Deployment and rollback runbook](docs/deployment-runbook.md)
 - [Hosting and scaling plan](docs/hosting-and-scale.md)
 - [How packages and admin work](docs/admin-operations.md)

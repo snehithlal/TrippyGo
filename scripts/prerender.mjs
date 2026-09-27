@@ -2,15 +2,21 @@ import { readFile, writeFile } from "node:fs/promises";
 import { createServer } from "vite";
 import React from "react";
 import { renderToString } from "react-dom/server";
-import { StaticRouter } from "react-router";
 
 const vite = await createServer({
   appType: "custom",
+  ssr: {
+    noExternal: ["react-router", "react-router-dom"],
+    resolve: { conditions: ["import", "module"] },
+  },
   server: { middlewareMode: true },
 });
 
 try {
-  const { default: App } = await vite.ssrLoadModule("/src/App.tsx");
+  const [{ default: App }, { StaticRouter }] = await Promise.all([
+    vite.ssrLoadModule("/src/App.tsx"),
+    vite.ssrLoadModule("/scripts/prerender-router.tsx"),
+  ]);
   const markup = renderToString(
     React.createElement(
       StaticRouter,
