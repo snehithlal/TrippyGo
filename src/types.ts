@@ -9,6 +9,8 @@ export interface TourPackage {
   route: string;
   /** Starting package price in INR per person, or null when quoted on request. */
   price: number | null;
+  /** Optional flight-inclusive starting rate in INR per person. */
+  flightIncludedPrice?: number | null;
   region?: "India" | "International";
   forCouples?: boolean;
   /** Starting total in INR for two travellers, or null when quoted on request. */

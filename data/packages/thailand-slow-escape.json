@@ -1,44 +1,45 @@
 {
   "id": "thailand-slow-escape",
-  "title": "Thailand, your way",
+  "title": "Bangkok & Pattaya escape",
   "destination": "Thailand",
   "category": "Culture",
   "region": "International",
-  "price": null,
-  "days": 5,
-  "nights": 4,
-  "badge": "City colour and coast",
-  "route": "Bangkok · Local neighbourhoods · Coast",
+  "price": 24499,
+  "flightIncludedPrice": 52000,
+  "rateNote": "Two travellers · switch between land-only and flight-inclusive rates",
+  "days": 4,
+  "nights": 3,
+  "badge": "Bangkok, Pattaya & Coral Island",
+  "route": "Bangkok · Pattaya · Coral Island · Bangkok",
   "displayOrder": 8,
   "image": "https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=1100&q=85",
   "alt": "A long-tail boat travelling through tropical water in Thailand",
-  "description": "Pair lively city streets with a slower coastal stay. Share your dates and preferred pace for a tailored quote.",
-  "fullDescription": "A starting point for a Thailand trip that can be shaped around city time, food, culture, or the coast. Final route, accommodation, transfers, and inclusions are confirmed in a personalised quote.",
+  "description": "Four days across Bangkok and Pattaya, with Coral Island, city sights, and selected meals. Choose land-only or flights-included pricing.",
+  "fullDescription": "A 4-day, 3-night Bangkok and Pattaya package for two travellers. The land-only rate is ₹24,499 per person; the flight-inclusive rate is ₹52,000 per person. Includes accommodation, listed meals, transfers and sightseeing described in the itinerary. Confirm hotel availability, flight details, and final inclusions before booking.",
   "features": [
-    "Flexible route",
-    "City and coast",
-    "Quote on request"
+    "3-night accommodation",
+    "Pattaya and Bangkok tours",
+    "Coral Island speedboat",
+    "Selected meals",
+    "Airport transfers",
+    "Land-only or flight-inclusive"
   ],
   "itinerary": [
     {
-      "title": "Arrive and settle in",
-      "text": "Meet your confirmed transfer and take time to settle into your first stay."
+      "title": "Arrive in Bangkok, continue to Pattaya",
+      "text": "Meet your local representative after arrival. Transfer to Pattaya with a Tiger Topia visit, breakfast, entry and photo, then check in. Enjoy lunch, a floating-market boat ride, the Alcazar Show, and dinner."
     },
     {
-      "title": "Explore the city",
-      "text": "Discover neighbourhoods and local food at a pace that suits your plans."
+      "title": "Coral Island by speedboat",
+      "text": "After breakfast, take a half-day Coral Island trip by speedboat with shared transfers and lunch. Return to Pattaya for leisure time; dinner is at your own expense."
     },
     {
-      "title": "Travel toward the coast",
-      "text": "Continue to your selected coastal area using the transport confirmed in your quote."
+      "title": "Pattaya to Bangkok and city sights",
+      "text": "Check out and travel to Bangkok, visiting the Gems Gallery en route. See the Marble Buddha and Golden Buddha, check in, then enjoy dinner aboard the Chao Phraya cruise."
     },
     {
-      "title": "A day at your own pace",
-      "text": "Leave room for the beach, a local experience, or a quieter day at your stay."
-    },
-    {
-      "title": "Until next time",
-      "text": "Check out and travel onward according to your confirmed departure plans."
+      "title": "Departure from Bangkok",
+      "text": "After breakfast, check out and enjoy free time for shopping and lunch at your own expense. Transfer to Bangkok International Airport for your departure."
     }
   ]
 }

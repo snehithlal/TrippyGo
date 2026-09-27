@@ -6,6 +6,7 @@ import {
   Clock3,
   MapPin,
   MessageCircle,
+  Plane,
   SlidersHorizontal,
   X,
 } from "lucide-react";
@@ -21,6 +22,9 @@ const Packages = ({ items }: { items: TourPackage[] }) => {
   const [travellers, setTravellers] = useState("2");
   const [customise, setCustomise] = useState(false);
   const [requests, setRequests] = useState("");
+  const [flightOptions, setFlightOptions] = useState<Record<string, boolean>>(
+    {},
+  );
   const dialog = useRef<HTMLDialogElement>(null);
   const filterNames = new Map<string, string>();
   [
@@ -65,8 +69,13 @@ const Packages = ({ items }: { items: TourPackage[] }) => {
             (tag) => tag.toLocaleLowerCase() === selectedFilter,
           ))),
   );
+  const flightIncluded = (item: TourPackage) => flightOptions[item.id] ?? false;
   const displayedRate = (item: TourPackage) =>
-    category === "Couples" ? (item.coupleStartingPrice ?? null) : item.price;
+    category === "Couples"
+      ? (item.coupleStartingPrice ?? null)
+      : flightIncluded(item)
+        ? (item.flightIncludedPrice ?? item.price)
+        : item.price;
   const rateUnit = category === "Couples" ? "couple" : "person";
   const today = new Date();
   const minDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
@@ -93,7 +102,7 @@ const Packages = ({ items }: { items: TourPackage[] }) => {
   const enquiry = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!selected) return;
-    const message = `Hi TrippyGo! I'm interested in "${selected.title}" (${selected.days} days / ${selected.nights} nights).\nTravellers: ${travellers}\nPreferred departure: ${date || "Flexible"}\nPackage price: ${formatPrice(displayedRate(selected))} per ${rateUnit}\nPlan: ${customise ? "Customised package" : "Standard package"}${customise ? `\nRequested changes: ${requests || "Please help me personalise this trip."}` : ""}\n${customise ? "Please share the revised itinerary and price for these changes." : "Please confirm availability and booking details for the standard package."}`;
+    const message = `Hi TrippyGo! I'm interested in "${selected.title}" (${selected.days} days / ${selected.nights} nights).\nTravellers: ${travellers}\nPreferred departure: ${date || "Flexible"}\nPackage price: ${formatPrice(displayedRate(selected))} per ${rateUnit}${selected.flightIncludedPrice != null ? `\nFlights: ${flightIncluded(selected) ? "Included" : "Not included"}` : ""}\nPlan: ${customise ? "Customised package" : "Standard package"}${customise ? `\nRequested changes: ${requests || "Please help me personalise this trip."}` : ""}\n${customise ? "Please share the revised itinerary and price for these changes." : "Please confirm availability and booking details for the standard package."}`;
     window.open(
       `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(message)}`,
       "_blank",
@@ -184,12 +193,52 @@ const Packages = ({ items }: { items: TourPackage[] }) => {
                 </div>
                 <div className={cx("package-price-row")}>
                   <div>
+                    {category !== "Couples" &&
+                      item.flightIncludedPrice != null && (
+                        <div
+                          className={cx("package-flight-options")}
+                          role="group"
+                          aria-label={`${item.title} flight option`}
+                        >
+                          <button
+                            type="button"
+                            className={cx("package-flight-option")}
+                            aria-pressed={!flightIncluded(item)}
+                            onClick={() =>
+                              setFlightOptions((current) => ({
+                                ...current,
+                                [item.id]: false,
+                              }))
+                            }
+                          >
+                            Land only
+                          </button>
+                          <button
+                            type="button"
+                            className={cx("package-flight-option")}
+                            aria-pressed={flightIncluded(item)}
+                            onClick={() =>
+                              setFlightOptions((current) => ({
+                                ...current,
+                                [item.id]: true,
+                              }))
+                            }
+                          >
+                            <Plane size={12} /> Included
+                          </button>
+                        </div>
+                      )}
                     <small>
-                      {category === "Couples"
-                        ? "COUPLE OFFER · TOTAL FOR TWO"
-                        : category === "International"
-                          ? "RATES START FROM · PER PERSON"
-                          : "STANDARD PACKAGE · PER PERSON"}
+                      {item.flightIncludedPrice != null &&
+                      category !== "Couples"
+                        ? flightIncluded(item)
+                          ? "FLIGHTS INCLUDED · PER PERSON"
+                          : "LAND ONLY · PER PERSON"
+                        : category === "Couples"
+                          ? "COUPLE OFFER · TOTAL FOR TWO"
+                          : category === "International"
+                            ? "RATES START FROM · PER PERSON"
+                            : "STANDARD PACKAGE · PER PERSON"}
                     </small>
                     <strong className="currency-amount">
                       {formatPrice(displayedRate(item))}

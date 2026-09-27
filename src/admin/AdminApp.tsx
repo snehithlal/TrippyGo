@@ -47,6 +47,7 @@ const blankPackage = (displayOrder: number): TourPackage => ({
   badge: "",
   route: "",
   price: 0,
+  flightIncludedPrice: null,
   image: "",
   alt: "",
   description: "",
@@ -499,6 +500,28 @@ const AdminApp = () => {
                   }
                 />
                 <span className="admin-hint">Leave blank for “On request”</span>
+              </label>
+              <label
+                className={
+                  fieldErrors.flightIncludedPrice ? "admin-invalid" : undefined
+                }
+              >
+                Flights-included rate (INR / person)
+                <input
+                  type="number"
+                  min="0"
+                  step="1"
+                  value={editing.flightIncludedPrice ?? ""}
+                  onChange={(event) =>
+                    change(
+                      "flightIncludedPrice",
+                      event.target.value ? Number(event.target.value) : null,
+                    )
+                  }
+                />
+                <span className="admin-hint">
+                  Optional. Leave blank if flights are not offered.
+                </span>
               </label>
               <label>
                 Region

@@ -45,6 +45,11 @@ export const validatePackageDraft = (
   )
     add("price", "Enter a whole-number price greater than zero, or leave it on request.");
   if (
+    item.flightIncludedPrice != null &&
+    (!Number.isInteger(item.flightIncludedPrice) || item.flightIncludedPrice <= 0)
+  )
+    add("flightIncludedPrice", "Enter a whole-number flights-included price greater than zero.");
+  if (
     item.coupleStartingPrice != null &&
     (!Number.isInteger(item.coupleStartingPrice) || item.coupleStartingPrice <= 0)
   )

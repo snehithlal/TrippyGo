@@ -188,6 +188,10 @@ export const styles = {
     "flex flex-wrap gap-x-3 gap-y-2 py-5 md:gap-x-3.5 [&>span]:flex [&>span]:items-center [&>span]:gap-1 [&>span]:text-[9px] [&>span]:text-[#5f7252] md:[&>span]:text-[10px]",
   "package-price-row":
     "flex items-center justify-between gap-4 border-t border-[#e7e8df] pt-5 [&_small]:mb-1 [&_small]:block [&_small]:text-[7px] [&_small]:tracking-wider [&_small]:text-[#7b8271] [&_strong]:text-xl [&_strong]:font-medium [&_strong]:tracking-[-.5px]",
+  "package-flight-options":
+    "mb-3 inline-grid grid-cols-2 rounded-md border border-[#d9ded2] bg-[#f3f5ef] p-1 text-[10px]",
+  "package-flight-option":
+    "min-h-8 rounded-sm px-2.5 py-1.5 text-[#626b50] transition-colors aria-pressed:bg-forest aria-pressed:text-cream",
   "package-detail-button":
     "flex items-center gap-4 rounded-lg border border-[#cdd7bf] px-4 py-3 text-[11px] transition-colors hover:bg-[#edf1e4]",
   "custom-package":
