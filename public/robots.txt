@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://snehithlal.github.io/TrippyGo/sitemap.xml
