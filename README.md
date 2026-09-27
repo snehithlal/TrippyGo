@@ -1,13 +1,18 @@
 # TrippyGo
 
-React and Vite travel website deployed to GitHub Pages. The private package management interface uses a separately deployed serverless API.
+TrippyGo helps you find a trip that feels like yours. Explore getaways across India and beyond, from relaxed beach breaks to mountain escapes and city adventures.
 
-## Development
+Browse our travel packages for destination ideas, sample itineraries, and starting prices. Some packages offer different options, such as land-only or flights included. Prices and availability can change, so we’ll confirm the details with you before you book.
 
-Use Node.js 22. Install dependencies with `npm ci`, then run `npm run dev`. `npm run build` performs the TypeScript check and production build.
+Have a place in mind or want something more personal? Get in touch and we’ll help shape a trip around your dates, interests, and budget.
 
-See [development and deployment](docs/development.md) for project setup and the [admin and package flow](docs/admin-operations.md) for the current application architecture and content lifecycle. Deployment URLs, admin access details, and credentials are maintained separately from this public README.
+## Plan a trip
 
-## Package content
+Visit us on [Instagram](https://www.instagram.com/_trippy_go/) or [message us on WhatsApp](https://wa.me/918075295734?text=Hi%20TrippyGo!%20I%27d%20love%20to%20plan%20a%20trip.).
 
-Package records live in `data/packages/` and share the website's `TourPackage` model. Set a package's `displayOrder` to control its public listing position; lower numbers appear first. The admin API commits package and image changes to GitHub; pushes to the configured branch trigger the existing GitHub Pages workflow. The admin dashboard reports the matching deployment status.
+## For contributors
+
+- [Run the website locally](docs/local-development.md)
+- [Development and deployment guide](docs/development.md)
+- [Set up the Vercel API](docs/vercel-setup.md)
+- [How packages and admin work](docs/admin-operations.md)
