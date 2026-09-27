@@ -75,7 +75,6 @@ const LandingPage = () => {
           >
             {[
               ["Packages", "packages"],
-              ["Packages", "packages"],
               ["Our story", "about"],
             ].map(([text, id]) => (
               <a key={id} href={`#${id}`} onClick={() => setMenu(false)}>

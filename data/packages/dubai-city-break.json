@@ -1,0 +1,40 @@
+{
+  "id": "dubai-city-break",
+  "title": "A bright little Dubai break",
+  "destination": "Dubai",
+  "category": "City",
+  "region": "International",
+  "price": null,
+  "days": 4,
+  "nights": 3,
+  "badge": "A city made for exploring",
+  "route": "Dubai · City highlights · Leisure time",
+  "displayOrder": 9,
+  "image": "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1100&q=85",
+  "alt": "Dubai skyline at dusk",
+  "description": "Mix city sights, open evenings, and time to explore. The itinerary and price are tailored to your travel dates.",
+  "fullDescription": "A flexible Dubai city break with room for sightseeing and downtime. Ask for a quote based on your dates, preferred hotel, transfers, and the experiences you would like included.",
+  "features": [
+    "City stay",
+    "Flexible sightseeing",
+    "Quote on request"
+  ],
+  "itinerary": [
+    {
+      "title": "Welcome to Dubai",
+      "text": "Arrive and check in at the hotel selected for your confirmed quote."
+    },
+    {
+      "title": "Discover the city",
+      "text": "Explore city highlights and choose experiences that match your interests."
+    },
+    {
+      "title": "A day to make your own",
+      "text": "Keep time open for shopping, a local experience, or a slower day."
+    },
+    {
+      "title": "Departure day",
+      "text": "Check out and continue to the airport according to your confirmed transfer plan."
+    }
+  ]
+}

@@ -39,8 +39,16 @@ export const validatePackageDraft = (
       "Keep the full description within 2,000 characters.",
     );
 
-  if (!Number.isInteger(item.price) || item.price <= 0)
-    add("price", "Enter a whole-number price greater than zero.");
+  if (
+    item.price !== null &&
+    (!Number.isInteger(item.price) || item.price <= 0)
+  )
+    add("price", "Enter a whole-number price greater than zero, or leave it on request.");
+  if (
+    item.coupleStartingPrice != null &&
+    (!Number.isInteger(item.coupleStartingPrice) || item.coupleStartingPrice <= 0)
+  )
+    add("coupleStartingPrice", "Enter a whole-number couples rate greater than zero.");
   if (!Number.isInteger(item.days) || item.days < 1 || item.days > 60)
     add("days", "Use between 1 and 60 days.");
   if (
@@ -65,6 +73,11 @@ export const validatePackageDraft = (
     add("features", "Add between 1 and 6 highlights.");
   else if (item.features.some((feature) => !hasText(feature, 2, 80)))
     add("features", "Each highlight must contain 2 to 80 characters.");
+
+  if ((item.tags ?? []).length > 10)
+    add("tags", "Add no more than 10 filter tags.");
+  else if ((item.tags ?? []).some((tag) => !hasText(tag, 2, 40)))
+    add("tags", "Each filter tag must contain 2 to 40 characters.");
 
   if (item.itinerary.length !== item.days)
     add("itinerary", "Add one complete itinerary day for every package day.");

@@ -42,6 +42,21 @@
   text-decoration: none;
   cursor: pointer;
 }
+.admin-editor-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #d8ddd5;
+  border-radius: 9px;
+  background: #fff;
+  padding: 10px 12px;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.admin-editor-back:hover {
+  background: #f5f8f1;
+}
 .admin-login {
   max-width: 460px;
   margin: 8vh auto;
@@ -77,6 +92,25 @@
   background: #fff;
   color: inherit;
   font: inherit;
+}
+.admin-fields select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #d8ddd5;
+  border-radius: 9px;
+  background: #fff;
+  color: inherit;
+  font: inherit;
+}
+.admin-fields label.admin-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.admin-fields label.admin-checkbox input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
 }
 .admin-fields textarea {
   resize: vertical;

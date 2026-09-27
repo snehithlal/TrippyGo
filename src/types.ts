@@ -7,8 +7,14 @@ export interface TourPackage {
   nights: number;
   badge: string;
   route: string;
-  /** Standard package price in INR per person. */
-  price: number;
+  /** Starting package price in INR per person, or null when quoted on request. */
+  price: number | null;
+  region?: "India" | "International";
+  forCouples?: boolean;
+  /** Starting total in INR for two travellers, or null when quoted on request. */
+  coupleStartingPrice?: number | null;
+  rateNote?: string;
+  tags?: string[];
   /** Lower values appear earlier in the public package list. */
   displayOrder?: number;
   image: string;

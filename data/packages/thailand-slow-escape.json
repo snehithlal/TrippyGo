@@ -1,0 +1,44 @@
+{
+  "id": "thailand-slow-escape",
+  "title": "Thailand, your way",
+  "destination": "Thailand",
+  "category": "Culture",
+  "region": "International",
+  "price": null,
+  "days": 5,
+  "nights": 4,
+  "badge": "City colour and coast",
+  "route": "Bangkok · Local neighbourhoods · Coast",
+  "displayOrder": 8,
+  "image": "https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=1100&q=85",
+  "alt": "A long-tail boat travelling through tropical water in Thailand",
+  "description": "Pair lively city streets with a slower coastal stay. Share your dates and preferred pace for a tailored quote.",
+  "fullDescription": "A starting point for a Thailand trip that can be shaped around city time, food, culture, or the coast. Final route, accommodation, transfers, and inclusions are confirmed in a personalised quote.",
+  "features": [
+    "Flexible route",
+    "City and coast",
+    "Quote on request"
+  ],
+  "itinerary": [
+    {
+      "title": "Arrive and settle in",
+      "text": "Meet your confirmed transfer and take time to settle into your first stay."
+    },
+    {
+      "title": "Explore the city",
+      "text": "Discover neighbourhoods and local food at a pace that suits your plans."
+    },
+    {
+      "title": "Travel toward the coast",
+      "text": "Continue to your selected coastal area using the transport confirmed in your quote."
+    },
+    {
+      "title": "A day at your own pace",
+      "text": "Leave room for the beach, a local experience, or a quieter day at your stay."
+    },
+    {
+      "title": "Until next time",
+      "text": "Check out and travel onward according to your confirmed departure plans."
+    }
+  ]
+}

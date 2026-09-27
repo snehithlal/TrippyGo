@@ -9,7 +9,7 @@ export const site: SiteContent = {
   whatsapp: "918075295734",
   phones: [
     { label: "+91 80752 95734", value: "+918075295734" },
-    { label: "+91 70251 93391", value: "+917025193391" },
+    { label: "+91 99615 86746", value: "+919961586746" },
   ],
   email: "trippygo.in@gmail.com",
   tagline: "Pack your Dreams",

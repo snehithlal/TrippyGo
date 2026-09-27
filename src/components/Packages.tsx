@@ -22,13 +22,52 @@ const Packages = ({ items }: { items: TourPackage[] }) => {
   const [customise, setCustomise] = useState(false);
   const [requests, setRequests] = useState("");
   const dialog = useRef<HTMLDialogElement>(null);
+  const filterNames = new Map<string, string>();
+  [
+    ...items.map((item) => item.category),
+    ...items.flatMap((item) => item.tags ?? []),
+  ]
+    .map((name) => name.trim())
+    .filter(
+      (name) =>
+        name &&
+        !["india", "international", "couples"].includes(
+          name.toLocaleLowerCase(),
+        ),
+    )
+    .forEach((name) => {
+      const normalized = name.toLocaleLowerCase();
+      if (!filterNames.has(normalized)) filterNames.set(normalized, name);
+    });
   const packageCategories = [
     "All trips",
-    ...new Set(items.map((item) => item.category)),
+    "India",
+    "International",
+    ...filterNames.values(),
+    "Couples",
   ];
+  const selectedFilter = category.toLocaleLowerCase();
+  const isSystemFilter = [
+    "all trips",
+    "india",
+    "international",
+    "couples",
+  ].includes(selectedFilter);
   const visible = items.filter(
-    (item) => category === "All trips" || item.category === category,
+    (item) =>
+      category === "All trips" ||
+      (category === "India" && (item.region ?? "India") === "India") ||
+      (category === "International" && item.region === "International") ||
+      (category === "Couples" && item.forCouples === true) ||
+      (!isSystemFilter &&
+        (item.category.toLocaleLowerCase() === selectedFilter ||
+          item.tags?.some(
+            (tag) => tag.toLocaleLowerCase() === selectedFilter,
+          ))),
   );
+  const displayedRate = (item: TourPackage) =>
+    category === "Couples" ? (item.coupleStartingPrice ?? null) : item.price;
+  const rateUnit = category === "Couples" ? "couple" : "person";
   const today = new Date();
   const minDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
 
@@ -54,7 +93,7 @@ const Packages = ({ items }: { items: TourPackage[] }) => {
   const enquiry = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!selected) return;
-    const message = `Hi TrippyGo! I'm interested in "${selected.title}" (${selected.days} days / ${selected.nights} nights).\nTravellers: ${travellers}\nPreferred departure: ${date || "Flexible"}\nPackage price: ${formatPrice(selected.price)} per person\nPlan: ${customise ? "Customised package" : "Standard package"}${customise ? `\nRequested changes: ${requests || "Please help me personalise this trip."}` : ""}\n${customise ? "Please share the revised itinerary and price for these changes." : "Please confirm availability and booking details for the standard package."}`;
+    const message = `Hi TrippyGo! I'm interested in "${selected.title}" (${selected.days} days / ${selected.nights} nights).\nTravellers: ${travellers}\nPreferred departure: ${date || "Flexible"}\nPackage price: ${formatPrice(displayedRate(selected))} per ${rateUnit}\nPlan: ${customise ? "Customised package" : "Standard package"}${customise ? `\nRequested changes: ${requests || "Please help me personalise this trip."}` : ""}\n${customise ? "Please share the revised itinerary and price for these changes." : "Please confirm availability and booking details for the standard package."}`;
     window.open(
       `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(message)}`,
       "_blank",
@@ -145,8 +184,18 @@ const Packages = ({ items }: { items: TourPackage[] }) => {
                 </div>
                 <div className={cx("package-price-row")}>
                   <div>
-                    <small>STANDARD PACKAGE · PER PERSON</small>
-                    <strong>{formatPrice(item.price)}</strong>
+                    <small>
+                      {category === "Couples"
+                        ? "COUPLE OFFER · TOTAL FOR TWO"
+                        : category === "International"
+                          ? "RATES START FROM · PER PERSON"
+                          : "STANDARD PACKAGE · PER PERSON"}
+                    </small>
+                    <strong className="currency-amount">
+                      {formatPrice(displayedRate(item))}
+                    </strong>
+                    {(category === "Couples" || category === "International") &&
+                      item.rateNote && <small>{item.rateNote}</small>}
                   </div>
                   <button
                     className={cx("package-detail-button")}
@@ -177,8 +226,8 @@ const Packages = ({ items }: { items: TourPackage[] }) => {
           </a>
         </div>
         <p className={cx("sample-note")}>
-          Standard packages have a set per-person price. Customisation is
-          available with a separately priced itinerary.
+          Starting rates are per person unless a Couples offer is shown. Trips
+          marked “On request” are quoted based on dates and availability.
         </p>
       </div>
       <dialog
@@ -223,8 +272,9 @@ const Packages = ({ items }: { items: TourPackage[] }) => {
                   <MapPin size={15} />
                   {selected.destination}
                 </span>
-                <strong>
-                  {formatPrice(selected.price)} <small>/ person</small>
+                <strong className="currency-amount">
+                  {formatPrice(displayedRate(selected))}{" "}
+                  <small>/ {rateUnit}</small>
                 </strong>
               </div>
               <h3>Your days, beautifully unhurried</h3>
@@ -244,12 +294,14 @@ const Packages = ({ items }: { items: TourPackage[] }) => {
               <div className={cx("package-inclusions")}>
                 <h3>A clear price. Room to make it yours.</h3>
                 <p>
-                  The displayed rate is per person for the standard package.
-                  Prefer a different stay, more days, or extra experiences?
-                  Choose customisation below for a revised itinerary and price.
-                  We’ll confirm the inclusions, occupancy, travel dates, taxes,
-                  and any additional charges before booking. Flights and
-                  optional activities are not assumed to be included.
+                  The displayed amount is a starting rate for the selected
+                  listing. Couple offers show a total for two travellers; other
+                  rates are per person. Prefer a different stay, more days, or
+                  extra experiences? Choose customisation below for a revised
+                  itinerary and price. We’ll confirm inclusions, occupancy,
+                  travel dates, taxes, and additional charges before booking.
+                  Flights and optional activities are not assumed to be
+                  included.
                 </p>
               </div>
               <form className={cx("package-enquiry")} onSubmit={enquiry}>

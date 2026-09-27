@@ -38,6 +38,9 @@ const blankPackage = (displayOrder: number): TourPackage => ({
   title: "",
   destination: "",
   category: "Nature",
+  region: "India",
+  forCouples: false,
+  tags: [],
   days: 1,
   nights: 0,
   displayOrder,
@@ -371,10 +374,10 @@ const AdminApp = () => {
               <h2>{editing.id ? "Edit package" : "Add package"}</h2>
               <button
                 type="button"
-                className="admin-logout"
+                className="admin-editor-back"
                 onClick={() => setEditing(null)}
               >
-                Cancel
+                <ArrowLeft size={17} /> Back to packages
               </button>
             </div>
             {Object.keys(fieldErrors).length > 0 && (
@@ -452,19 +455,91 @@ const AdminApp = () => {
                 />
               </label>
               <label
+                className={`admin-wide${fieldErrors.tags ? " admin-invalid" : ""}`}
+              >
+                Additional filter tags
+                <input
+                  placeholder="Island, Adventure, Family"
+                  value={(editing.tags ?? []).join(", ")}
+                  onChange={(event) => {
+                    const seen = new Set<string>();
+                    const tags = event.target.value
+                      .split(",")
+                      .map((tag) => tag.trim())
+                      .filter((tag) => {
+                        const normalized = tag.toLocaleLowerCase();
+                        if (!tag || seen.has(normalized)) return false;
+                        seen.add(normalized);
+                        return true;
+                      });
+                    change("tags", tags);
+                  }}
+                />
+                <span className="admin-hint">
+                  Add comma-separated filters. Use Region and the Couples
+                  control for those built-in filters.
+                </span>
+              </label>
+              <label
                 className={fieldErrors.price ? "admin-invalid" : undefined}
               >
-                Price (INR)
+                {editing.region === "International"
+                  ? "International rate starts from (INR / person)"
+                  : "Starting rate (INR / person)"}
                 <input
-                  required
                   type="number"
                   min="0"
                   step="1"
-                  value={editing.price}
+                  value={editing.price ?? ""}
                   onChange={(event) =>
-                    change("price", Number(event.target.value))
+                    change(
+                      "price",
+                      event.target.value ? Number(event.target.value) : null,
+                    )
                   }
                 />
+                <span className="admin-hint">Leave blank for “On request”</span>
+              </label>
+              <label>
+                Region
+                <select
+                  value={editing.region ?? "India"}
+                  onChange={(event) =>
+                    change(
+                      "region",
+                      event.target.value as "India" | "International",
+                    )
+                  }
+                >
+                  <option>India</option>
+                  <option>International</option>
+                </select>
+              </label>
+              <label>
+                Couples offer starts from (INR / couple)
+                <input
+                  type="number"
+                  min="0"
+                  step="1"
+                  value={editing.coupleStartingPrice ?? ""}
+                  onChange={(event) =>
+                    change(
+                      "coupleStartingPrice",
+                      event.target.value ? Number(event.target.value) : null,
+                    )
+                  }
+                />
+                <span className="admin-hint">Total for two travellers</span>
+              </label>
+              <label className="admin-checkbox">
+                <input
+                  type="checkbox"
+                  checked={editing.forCouples ?? false}
+                  onChange={(event) =>
+                    change("forCouples", event.target.checked)
+                  }
+                />
+                Show in Couples filter
               </label>
               <label className={fieldErrors.days ? "admin-invalid" : undefined}>
                 Days

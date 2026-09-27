@@ -8,7 +8,7 @@ export const packages: TourPackage[] = Object.values(packageModules)
   .map((module) => module.default)
   .filter(Boolean);
 export const sortPackages = (items: TourPackage[]) =>
-  items
+  [...new Map(items.filter(Boolean).map((item) => [item.id, item])).values()]
     .map((item, index) => ({ item, index }))
     .sort(
       (left, right) =>
@@ -24,4 +24,8 @@ export const packageCategories = [
 export const formatPrice = (value: number | null) =>
   value == null
     ? "On request"
-    : `₹${new Intl.NumberFormat("en-IN").format(value)}`;
+    : new Intl.NumberFormat("en-IN", {
+        style: "currency",
+        currency: "INR",
+        maximumFractionDigits: 0,
+      }).format(value);

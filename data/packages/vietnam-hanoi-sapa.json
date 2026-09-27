@@ -1,0 +1,48 @@
+{
+  "id": "vietnam-hanoi-sapa",
+  "title": "Hanoi, Sapa & Ha Long Bay",
+  "destination": "Vietnam",
+  "category": "Culture",
+  "region": "International",
+  "forCouples": true,
+  "coupleStartingPrice": 52000,
+  "price": 25474,
+  "rateNote": "For two guests · taxes/TCS excluded · quote valid through 31 Dec 2026",
+  "days": 5,
+  "nights": 4,
+  "badge": "Mountains, culture and bay views",
+  "route": "Hanoi · Sapa · Ha Long Bay · Hanoi",
+  "displayOrder": 10,
+  "image": "https://images.unsplash.com/photo-1509030450996-dd1a26dda07a?auto=format&fit=crop&w=1100&q=85",
+  "alt": "A traditional Vietnamese city street with local architecture",
+  "description": "A five-day Vietnam route through Hanoi, Sapa, and Ha Long Bay, based on the supplied travel proposal.",
+  "fullDescription": "The supplied proposal lists 3-star accommodation, itinerary meals, transfers, entry tickets, and an e-Visa. Flights, taxes, early check-in, late checkout, and tips are excluded. Confirm current availability, route details, and final inclusions before booking.",
+  "features": [
+    "3-star stays",
+    "Sapa and Fansipan",
+    "Ha Long Bay cruise",
+    "e-Visa included"
+  ],
+  "itinerary": [
+    {
+      "title": "Arrival in Hanoi",
+      "text": "Arrive in Hanoi, transfer to the hotel, and settle in before your first overnight stay."
+    },
+    {
+      "title": "Transfer to Sapa and Cat Cat Village",
+      "text": "Travel to Sapa and join a guided walk through Cat Cat Village and its surrounding landscapes."
+    },
+    {
+      "title": "Fansipan and return to Hanoi",
+      "text": "Take the cable car toward Fansipan, explore the summit area, and return according to the confirmed transfer plan."
+    },
+    {
+      "title": "Ha Long Bay day cruise",
+      "text": "Join a shared cruise through Ha Long Bay, with lunch and activities as listed in the confirmed itinerary."
+    },
+    {
+      "title": "Departure from Hanoi",
+      "text": "Check out and take your private transfer to the airport for your onward journey."
+    }
+  ]
+}

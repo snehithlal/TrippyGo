@@ -1,0 +1,42 @@
+{
+  "id": "lakshadweep-island-days",
+  "title": "A few days in Lakshadweep",
+  "destination": "Lakshadweep",
+  "category": "Beach",
+  "region": "International",
+  "forCouples": true,
+  "coupleStartingPrice": null,
+  "price": null,
+  "days": 4,
+  "nights": 3,
+  "badge": "Island time, at your pace",
+  "route": "Agatti · Lagoons · Island stays",
+  "displayOrder": 7,
+  "image": "https://images.unsplash.com/photo-1505881502353-a1986add3762?auto=format&fit=crop&w=1100&q=85",
+  "alt": "Clear turquoise water beside a palm-lined tropical beach",
+  "description": "A slow island escape with lagoon views, time by the water, and a tailored plan based on travel dates and availability.",
+  "fullDescription": "Plan a relaxed Lakshadweep escape with island stays and time by the lagoon. Travel permits, connections, accommodation, activities, and final inclusions depend on dates and availability and will be confirmed in a quote.",
+  "features": [
+    "Island stays",
+    "Lagoon time",
+    "Quote on request"
+  ],
+  "itinerary": [
+    {
+      "title": "Arrive on the islands",
+      "text": "Travel to your island stay and settle in around the confirmed arrival schedule."
+    },
+    {
+      "title": "A day by the lagoon",
+      "text": "Enjoy unhurried time by the water, with available experiences confirmed before booking."
+    },
+    {
+      "title": "Choose your own pace",
+      "text": "Keep the day open for the beach or ask about activities available during your visit."
+    },
+    {
+      "title": "Island farewell",
+      "text": "Check out and travel onward according to the confirmed transfer schedule."
+    }
+  ]
+}
