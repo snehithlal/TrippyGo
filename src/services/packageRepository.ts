@@ -52,7 +52,9 @@ const request = async <T>(
 const readLocalPackages = (): TourPackage[] => {
   try {
     const stored = localStorage.getItem(localPackagesKey);
-    return sortPackages(stored ? (JSON.parse(stored) as TourPackage[]) : localPackages);
+    return sortPackages(
+      stored ? (JSON.parse(stored) as TourPackage[]) : localPackages,
+    );
   } catch {
     return sortPackages(localPackages);
   }
@@ -115,9 +117,7 @@ export const updatePackage = async (
   if (localAdminMode) {
     const localImage = await localImageData(image);
     const items = readLocalPackages().map((item) =>
-      item.id === id
-        ? { ...data, image: localImage || data.image }
-        : item,
+      item.id === id ? { ...data, image: localImage || data.image } : item,
     );
     const updated = items.find((item) => item.id === id) || null;
     if (!updated) throw new Error("Package not found.");
@@ -136,9 +136,12 @@ export const deletePackage = async (id: string): Promise<PackageMutation> => {
     writeLocalPackages(items);
     return localMutation(null);
   }
-  return mutationRequest<TourPackage | null>(`/packages/${encodeURIComponent(id)}`, {
-    method: "DELETE",
-  });
+  return mutationRequest<TourPackage | null>(
+    `/packages/${encodeURIComponent(id)}`,
+    {
+      method: "DELETE",
+    },
+  );
 };
 
 export const updatePackageOrder = async (
@@ -165,7 +168,11 @@ export const getDeploymentStatus = async (
   sha: string,
 ): Promise<DeploymentStatus> => {
   if (localAdminMode)
-    return { state: "success", url: undefined, createdAt: new Date().toISOString() };
+    return {
+      state: "success",
+      url: undefined,
+      createdAt: new Date().toISOString(),
+    };
   return (
     await request<DeploymentStatus>(
       `/deploy/status?sha=${encodeURIComponent(sha)}`,
@@ -175,7 +182,8 @@ export const getDeploymentStatus = async (
 
 export const login = async (password: string): Promise<void> => {
   if (localAdminMode) {
-    if (password !== localAdminPassword) throw new Error("Incorrect local admin password.");
+    if (password !== localAdminPassword)
+      throw new Error("Incorrect local admin password.");
     localStorage.setItem(localSessionKey, "true");
     return;
   }

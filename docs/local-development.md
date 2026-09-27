@@ -4,7 +4,7 @@ This guide is for previewing the website and working on its admin interface on y
 
 ## Requirements
 
-- Node.js 22.12 or later
+- Node.js 22.13 or later
 - npm
 
 ## Start the website
@@ -54,11 +54,11 @@ Use this only when you need to test API authentication or GitHub-backed saves. A
 ## Check changes
 
 ```sh
-npm run typecheck
+npm run check
 npm run build
 ```
 
-The build command also runs the TypeScript check.
+`npm run check` runs TypeScript, ESLint, Prettier, and unit tests. The production build runs those checks before building and prerendering the site.
 
 ## More project documentation
 

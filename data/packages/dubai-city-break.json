@@ -14,11 +14,7 @@
   "alt": "Dubai skyline at dusk",
   "description": "Mix city sights, open evenings, and time to explore. The itinerary and price are tailored to your travel dates.",
   "fullDescription": "A flexible Dubai city break with room for sightseeing and downtime. Ask for a quote based on your dates, preferred hotel, transfers, and the experiences you would like included.",
-  "features": [
-    "City stay",
-    "Flexible sightseeing",
-    "Quote on request"
-  ],
+  "features": ["City stay", "Flexible sightseeing", "Quote on request"],
   "itinerary": [
     {
       "title": "Welcome to Dubai",

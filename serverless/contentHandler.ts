@@ -140,7 +140,10 @@ const validatePackage = (value: unknown): TourPackage => {
     rate === null ||
     (Number.isInteger(rate) && Number(rate) > 0);
   if (
-    !(item.price === null || (Number.isInteger(item.price) && item.price! > 0)) ||
+    !(
+      item.price === null ||
+      (Number.isInteger(item.price) && item.price! > 0)
+    ) ||
     !isOptionalRate(item.flightIncludedPrice) ||
     !isOptionalRate(item.coupleStartingPrice) ||
     !Number.isInteger(item.days) ||

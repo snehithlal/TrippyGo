@@ -114,7 +114,6 @@ const AdminApp = () => {
   useEffect(() => {
     if (!deploymentCommit) return;
     let active = true;
-    let timer: ReturnType<typeof setInterval>;
     const poll = async () => {
       try {
         const status = await getDeploymentStatus(deploymentCommit);
@@ -132,8 +131,8 @@ const AdminApp = () => {
           );
       }
     };
+    const timer = setInterval(() => void poll(), 5000);
     void poll();
-    timer = setInterval(() => void poll(), 5000);
     return () => {
       active = false;
       clearInterval(timer);

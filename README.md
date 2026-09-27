@@ -12,6 +12,8 @@ Visit us on [Instagram](https://www.instagram.com/_trippy_go/) or [message us on
 
 ## For contributors
 
+- [Project handover](docs/project-handover.md)
+- [Code standards](docs/code-standards.md)
 - [Run the website locally](docs/local-development.md)
 - [Development and deployment guide](docs/development.md)
 - [Set up the Vercel API](docs/vercel-setup.md)

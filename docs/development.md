@@ -2,7 +2,7 @@
 
 ## Local development
 
-Use Node.js 22.12 or later, matching the current build tooling and GitHub Actions runtime.
+Use Node.js 22.13 or later, matching the current linting and test tooling. The GitHub Actions workflow uses Node 22.
 
 ```sh
 npm ci
@@ -10,7 +10,7 @@ cp .env.example .env.local
 npm run dev
 ```
 
-`npm run build` runs the strict TypeScript check and creates the production site. `npm run typecheck` runs the check on its own.
+`npm run check` runs TypeScript, ESLint, Prettier, and Vitest. `npm run build` runs those checks, creates the production site, and prerenders its public content. `npm run typecheck` runs the TypeScript check on its own.
 
 ### Test the admin without Vercel
 
@@ -72,7 +72,7 @@ The API validates image type and a 3 MB size limit. It commits image and package
 
 The existing `TourPackage` shape is stored as one JSON record per package. `displayOrder` controls public listing order, with lower numbers shown first; older records without it retain their existing relative order until edited. The public gallery and admin UI call `packageRepository`; they do not call GitHub. The serverless API owns authentication and GitHub operations, so a future database/object-storage adapter can replace it without changing the UI.
 
-The current tests/linter are not configured in this repository. `npm run build` includes type checking.
+Vitest currently covers package sorting, INR formatting, and package draft validation. Browser and API integration tests are not configured yet. `npm run build` runs the standard quality checks before production output is generated.
 
 ## Existing public site
 

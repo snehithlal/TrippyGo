@@ -12,7 +12,7 @@ import {
   Instagram,
   MoveUpRight,
   SlidersHorizontal,
-  Infinity,
+  Infinity as InfinityIcon,
   Phone,
   Mail,
   BedDouble,
@@ -40,7 +40,7 @@ const Brand = () => {
       <span className={cx("brand-words")}>
         <span>
           TrippyGo
-          <Infinity className={cx("brand-infinity")} size={23} />
+          <InfinityIcon className={cx("brand-infinity")} size={23} />
         </span>
         <small>{site.tagline}</small>
       </span>
@@ -180,7 +180,7 @@ const LandingPage = () => {
           <span>GREAT PLACES</span>
           <span aria-hidden="true">✳</span>
           <span>MEMORIES FOREVER</span>
-          <Infinity size={26} />
+          <InfinityIcon size={26} />
           <span>LET’S TRIP TOGETHER</span>
           <span aria-hidden="true">✳</span>
         </div>

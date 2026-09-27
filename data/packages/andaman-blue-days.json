@@ -13,11 +13,7 @@
   "alt": "Turquoise water meeting a palm-lined beach in the Andaman Islands",
   "description": "Ferry rides, quiet beaches, and clear-water afternoons. An island break made for slowing all the way down.",
   "fullDescription": "Spend a few days moving gently between the islands, with easy ferry connections, beach time, and optional water experiences. The route is designed to leave room for rest as well as adventure.",
-  "features": [
-    "Island stays",
-    "Ferry transfers",
-    "Optional water activities"
-  ],
+  "features": ["Island stays", "Ferry transfers", "Optional water activities"],
   "itinerary": [
     {
       "title": "Arrive by the sea",
