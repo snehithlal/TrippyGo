@@ -284,6 +284,22 @@
   color: #69756c;
   font-size: 14px;
 }
+.admin-empty {
+  margin: 0;
+  padding: 22px;
+  border: 1px dashed #cbd5c9;
+  border-radius: 10px;
+  color: #66736a;
+  background: #fbfcfa;
+}
+.admin-refreshing {
+  animation: admin-spin 900ms linear infinite;
+}
+@keyframes admin-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 .admin-list-controls {
   display: flex;
   flex-wrap: wrap;

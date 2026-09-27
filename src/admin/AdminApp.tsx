@@ -8,6 +8,7 @@ import {
   LogOut,
   Pencil,
   Plus,
+  RefreshCw,
   Save,
   Trash2,
 } from "lucide-react";
@@ -58,6 +59,7 @@ const blankPackage = (displayOrder: number): TourPackage => ({
 const AdminApp = () => {
   const [authenticated, setAuthenticated] = useState(false);
   const [checking, setChecking] = useState(true);
+  const [loadingPackages, setLoadingPackages] = useState(false);
   const [items, setItems] = useState<TourPackage[]>([]);
   const [editing, setEditing] = useState<TourPackage | null>(null);
   const [image, setImage] = useState<File>();
@@ -79,14 +81,34 @@ const AdminApp = () => {
   );
   const [fieldErrors, setFieldErrors] = useState<PackageValidationErrors>({});
 
-  const refresh = async () => setItems(await getPackages());
+  const refresh = async () => {
+    setLoadingPackages(true);
+    try {
+      const packages = await getPackages();
+      setItems(sortPackages(packages));
+      setError("");
+    } catch (reason) {
+      setError(
+        reason instanceof Error ? reason.message : "Unable to load packages.",
+      );
+      throw reason;
+    } finally {
+      setLoadingPackages(false);
+    }
+  };
 
   useEffect(() => {
-    getSession().then((active) => {
-      setAuthenticated(active);
-      if (active) refresh().catch((reason: Error) => setError(reason.message));
-      setChecking(false);
-    });
+    getSession()
+      .then(async (active) => {
+        setAuthenticated(active);
+        if (active) await refresh();
+      })
+      .catch((reason: Error) => {
+        setError(reason.message);
+      })
+      .finally(() => {
+        setChecking(false);
+      });
   }, []);
 
   useEffect(() => {
@@ -842,10 +864,23 @@ const AdminApp = () => {
                   {items.length} {items.length === 1 ? "package" : "packages"}
                 </h2>
                 <p className="admin-order-hint">
-                  Drag packages into position, then save the order.
+                  {loadingPackages
+                    ? "Loading packages…"
+                    : "Drag packages into position, then save the order."}
                 </p>
               </div>
               <div className="admin-list-controls">
+                <button
+                  className="admin-logout"
+                  onClick={() => void refresh().catch(() => undefined)}
+                  disabled={busy || loadingPackages}
+                >
+                  <RefreshCw
+                    size={16}
+                    className={loadingPackages ? "admin-refreshing" : undefined}
+                  />
+                  Refresh packages
+                </button>
                 <button
                   className={cx("button", "button-green")}
                   onClick={() => void savePackageOrder()}
@@ -867,6 +902,13 @@ const AdminApp = () => {
               </div>
             </div>
             <div className="admin-list">
+              {items.length === 0 && (
+                <p className="admin-empty" role="status">
+                  {error
+                    ? "Packages could not be loaded. Check the content API connection and repository access, then refresh."
+                    : "No packages found yet. Add a package or refresh the list."}
+                </p>
+              )}
               {items.map((item, index) => (
                 <article
                   className={`admin-card${draggedPackageId === item.id ? " is-dragging" : ""}${dragOverPackageId === item.id && draggedPackageId !== item.id ? " is-drop-target" : ""}${settlingPackageId === item.id ? " is-settling" : ""}`}
