@@ -135,9 +135,16 @@ const validatePackage = (value: unknown): TourPackage => {
     throw new RequestError(
       "One or more text fields exceed the allowed length.",
     );
+  const isOptionalRate = (rate: unknown) =>
+    rate === undefined ||
+    rate === null ||
+    (Number.isInteger(rate) && Number(rate) > 0);
   if (
-    ![item.price, item.days, item.nights].every(Number.isInteger) ||
-    item.price! < 0 ||
+    !(item.price === null || (Number.isInteger(item.price) && item.price! > 0)) ||
+    !isOptionalRate(item.flightIncludedPrice) ||
+    !isOptionalRate(item.coupleStartingPrice) ||
+    !Number.isInteger(item.days) ||
+    !Number.isInteger(item.nights) ||
     item.days! < 1 ||
     item.days! > 60 ||
     item.nights! < 0 ||

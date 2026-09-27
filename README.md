@@ -6,7 +6,7 @@ React and Vite travel website deployed to GitHub Pages. The private package mana
 
 Use Node.js 22. Install dependencies with `npm ci`, then run `npm run dev`. `npm run build` performs the TypeScript check and production build.
 
-See [development and deployment](docs/development.md) for Pages and API setup. Configure the private route and API URL as deployment variables. Server credentials belong only in the API host's secure environment settings.
+See [development and deployment](docs/development.md) for project setup and the [admin and package flow](docs/admin-operations.md) for the current application architecture and content lifecycle. Deployment URLs, admin access details, and credentials are maintained separately from this public README.
 
 ## Package content
 
