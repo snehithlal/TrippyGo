@@ -389,21 +389,24 @@ const ScrollToTop = () => {
   return null;
 };
 
-export const BackgroundCanvas = () => (
-  <div
-    className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
-    aria-hidden="true"
-  >
-    <img
-      src="/images/hero-bg.jpg"
-      alt=""
-      className="h-full w-full object-cover object-[center_30%]"
-      loading="eager"
-    />
-    <div className="absolute inset-0 bg-gradient-to-b from-[#08120b]/75 via-[#08120b]/60 via-[35%] to-[#060e08]/95" />
-    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_transparent_20%,_#060e08_90%)] opacity-70" />
-  </div>
-);
+export const BackgroundCanvas = () => {
+  const bgUrl = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/images/hero-bg.jpg`;
+  return (
+    <div
+      className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
+      aria-hidden="true"
+    >
+      <img
+        src={bgUrl}
+        alt=""
+        className="h-full w-full object-cover object-[center_30%]"
+        loading="eager"
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#08120b]/75 via-[#08120b]/60 via-[35%] to-[#060e08]/95" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_transparent_20%,_#060e08_90%)] opacity-70" />
+    </div>
+  );
+};
 
 const App = () => (
   <>
