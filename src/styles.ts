@@ -27,7 +27,7 @@ export const styles = {
     "absolute left-5 right-5 top-[68px] hidden flex-col gap-6 rounded-md border border-white/10 bg-[#0a150e]/95 p-6 text-base font-semibold text-[#e8e0cc] shadow-2xl md:static md:flex md:flex-row md:gap-8 md:border-0 md:bg-transparent md:p-0 md:text-base md:shadow-none [&_a:hover]:text-gold [&_a]:transition-colors",
   "is-open": "max-md:!flex",
   "nav-cta":
-    "ml-auto !gap-2 !px-3.5 !py-2.5 !text-xs font-semibold hidden md:inline-flex md:ml-0 md:!gap-4 md:!px-5 md:!py-3 md:!text-sm !bg-gold !text-[#0a150e] hover:!bg-[#f1cb8c]",
+    "ml-auto inline-flex h-10 items-center justify-center !gap-2 !px-4.5 !py-0 !text-xs font-bold !bg-gold !text-[#0a150e] rounded-xl shadow-[0_2px_12px_#e6bc7225] transition-all hover:!bg-[#f1cb8c] hover:-translate-y-0.5 active:scale-95 hidden md:inline-flex md:ml-0",
   "menu-button":
     "grid h-[38px] w-[30px] shrink-0 place-items-center text-[#e8e0cc] max-[370px]:ml-auto md:hidden",
   hero: "relative overflow-hidden",

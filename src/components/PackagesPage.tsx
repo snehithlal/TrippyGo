@@ -88,7 +88,7 @@ const PackagesPage = () => {
           <div className="ml-auto flex items-center gap-2">
             <Link
               to="/"
-              className="inline-flex items-center gap-1.5 rounded-lg border border-white/20 bg-white/10 px-3.5 py-2 text-xs font-semibold text-[#e8e0cc] backdrop-blur-sm transition-colors hover:border-gold hover:bg-gold hover:text-forest"
+              className="inline-flex h-10 items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-4 text-xs font-semibold text-[#f5efe0] backdrop-blur-md transition-all hover:border-gold hover:bg-gold hover:text-[#0a150e] active:scale-95"
               aria-label="Back to home page"
             >
               <ArrowLeft size={14} /> Back
