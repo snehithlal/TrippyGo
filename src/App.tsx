@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ArrowUpRight,
   Menu,
@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 import { site, faqs, gallery } from "./data/content";
 import { cx } from "./styles";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import PackageGallery from "./components/PackageGallery";
 import PackagesPage from "./components/PackagesPage";
 import AdminApp from "./admin/AdminApp";
@@ -66,7 +66,7 @@ const LandingPage = () => {
           >
             <a
               href="#packages"
-              className="text-base font-semibold transition-colors hover:text-[#a27113] md:text-base"
+              className="text-base font-semibold text-[#e8e0cc] transition-colors hover:text-gold md:text-base"
               onClick={() => setMenu(false)}
             >
               Packages
@@ -371,13 +371,51 @@ const adminRoute = configuredAdminRoute
   ? `/${configuredAdminRoute}`
   : undefined;
 
+const ScrollToTop = () => {
+  const { pathname, hash } = useLocation();
+
+  useEffect(() => {
+    if (hash) {
+      const id = hash.replace("#", "");
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+        return;
+      }
+    }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [pathname, hash]);
+
+  return null;
+};
+
+export const BackgroundCanvas = () => (
+  <div
+    className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
+    aria-hidden="true"
+  >
+    <img
+      src="/images/hero-bg.jpg"
+      alt=""
+      className="h-full w-full object-cover object-[center_30%]"
+      loading="eager"
+    />
+    <div className="absolute inset-0 bg-gradient-to-b from-[#08120b]/75 via-[#08120b]/60 via-[35%] to-[#060e08]/95" />
+    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_transparent_20%,_#060e08_90%)] opacity-70" />
+  </div>
+);
+
 const App = () => (
-  <Routes>
-    {adminRoute && <Route path={adminRoute} element={<AdminApp />} />}
-    <Route path="/packages" element={<PackagesPage />} />
-    <Route path="/packages/:categorySlug" element={<PackagesPage />} />
-    <Route path="*" element={<LandingPage />} />
-  </Routes>
+  <>
+    <BackgroundCanvas />
+    <ScrollToTop />
+    <Routes>
+      {adminRoute && <Route path={adminRoute} element={<AdminApp />} />}
+      <Route path="/packages" element={<PackagesPage />} />
+      <Route path="/packages/:categorySlug" element={<PackagesPage />} />
+      <Route path="*" element={<LandingPage />} />
+    </Routes>
+  </>
 );
 
 export default App;

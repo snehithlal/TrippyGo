@@ -264,11 +264,11 @@ const Packages = ({
           <div className="mb-6 flex items-center justify-between">
             <Link
               to="/#packages"
-              className="inline-flex items-center gap-2 rounded-full border border-[#cbd1c0] bg-[#fffefa] px-4 py-2 text-xs font-semibold text-[#546244] transition-colors hover:border-forest hover:bg-forest hover:text-cream"
+              className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm px-4 py-2 text-xs font-semibold text-[#e8e0cc] transition-colors hover:border-gold hover:text-gold hover:bg-white/10"
             >
               <ArrowLeft size={14} /> Back to home
             </Link>
-            <span className="text-xs text-[#727d65]">
+            <span className="text-xs text-[#a8b897]">
               Showing <strong>{visible.length}</strong> {category} packages
             </span>
           </div>
@@ -315,26 +315,26 @@ const Packages = ({
           <div className="mb-8 block md:hidden">
             <Link
               to="/packages"
-              className="group mb-5 flex items-center justify-between rounded-2xl bg-gold px-6 py-4.5 text-forest shadow-[0_4px_16px_#bd881622] transition-transform active:scale-[0.98]"
+              className="group mb-5 flex items-center justify-between rounded-2xl bg-gold px-6 py-4.5 text-[#0a150e] shadow-[0_4px_20px_#e6bc7235] transition-transform active:scale-[0.98]"
             >
               <div className="flex flex-col text-left">
-                <span className="text-xs font-bold uppercase tracking-wider text-[#694f17]">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#4d3a0f]">
                   Complete Collection
                 </span>
-                <span className="text-lg font-bold text-forest">
+                <span className="text-lg font-bold text-[#0a150e]">
                   Explore our packages
                 </span>
               </div>
-              <span className="grid size-9 place-items-center rounded-full bg-forest text-cream transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+              <span className="grid size-9 place-items-center rounded-full bg-[#0a150e] text-gold transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
                 <ArrowUpRight size={19} />
               </span>
             </Link>
 
             <div className="mb-3.5 flex items-center justify-between">
-              <span className="text-xs font-bold uppercase tracking-[1.4px] text-[#677252]">
+              <span className="text-xs font-bold uppercase tracking-[1.4px] text-gold/90">
                 Explore by category
               </span>
-              <span className="text-xs font-medium text-[#717b62]">
+              <span className="text-xs font-medium text-[#a8b897]">
                 {mobileCategories.length} categories
               </span>
             </div>
@@ -344,7 +344,7 @@ const Packages = ({
                 <Link
                   key={cat.name}
                   to={`/packages?category=${encodeURIComponent(cat.name)}`}
-                  className="group relative flex h-[148px] flex-col justify-end overflow-hidden rounded-2xl border border-[#d6d4c5] bg-[#1a2d1f] p-3.5 shadow-sm transition-all active:scale-[0.98]"
+                  className="group relative flex h-[148px] flex-col justify-end overflow-hidden rounded-2xl border border-white/10 bg-[#0d1c14] p-3.5 shadow-lg transition-all active:scale-[0.98] hover:border-gold/40"
                 >
                   <img
                     src={cat.image}
@@ -352,8 +352,8 @@ const Packages = ({
                     className="absolute inset-0 h-full w-full object-cover opacity-85 transition-transform duration-700 group-hover:scale-105"
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#102014f2] via-[#10201460] to-transparent" />
-                  <span className="absolute right-2.5 top-2.5 grid size-6 place-items-center rounded-full bg-white/25 text-white backdrop-blur-sm transition-transform group-hover:rotate-45">
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#08120bf2] via-[#08120b60] to-transparent" />
+                  <span className="absolute right-2.5 top-2.5 grid size-6 place-items-center rounded-full bg-white/20 text-white backdrop-blur-sm transition-transform group-hover:rotate-45">
                     <ArrowUpRight size={13} />
                   </span>
                   <div className="relative z-10 text-left">
