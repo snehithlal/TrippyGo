@@ -6,6 +6,7 @@ import {
   ArrowUpRight,
   Check,
   Clock3,
+  Compass,
   MapPin,
   MessageCircle,
   Plane,
@@ -315,18 +316,23 @@ const Packages = ({
           <div className="mb-8 block md:hidden">
             <Link
               to="/packages"
-              className="group mb-5 flex items-center justify-between rounded-2xl bg-gold px-6 py-4.5 text-[#0a150e] shadow-[0_4px_20px_#e6bc7235] transition-transform active:scale-[0.98]"
+              className="group mb-5 flex items-center justify-between rounded-2xl border border-white/15 bg-gradient-to-r from-gold/15 via-[#0d1c14]/85 to-[#0d1c14]/85 p-4 backdrop-blur-md shadow-[0_8px_25px_#00000050] transition-all hover:border-gold/50 active:scale-[0.98]"
             >
-              <div className="flex flex-col text-left">
-                <span className="text-xs font-bold uppercase tracking-wider text-[#4d3a0f]">
-                  Complete Collection
+              <div className="flex items-center gap-3.5">
+                <span className="grid size-10 shrink-0 place-items-center rounded-xl border border-gold/40 bg-gold/15 text-gold">
+                  <Compass size={19} strokeWidth={1.8} />
                 </span>
-                <span className="text-lg font-bold text-[#0a150e]">
-                  Explore our packages
-                </span>
+                <div className="flex flex-col text-left">
+                  <span className="text-[10px] font-bold uppercase tracking-[1.4px] text-gold">
+                    Complete Collection
+                  </span>
+                  <span className="text-[16px] font-semibold text-[#f5efe0]">
+                    Explore all packages
+                  </span>
+                </div>
               </div>
-              <span className="grid size-9 place-items-center rounded-full bg-[#0a150e] text-gold transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-                <ArrowUpRight size={19} />
+              <span className="grid size-9 shrink-0 place-items-center rounded-full bg-gold/20 border border-gold/30 text-gold transition-all group-hover:bg-gold group-hover:text-[#0a150e] group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                <ArrowUpRight size={17} />
               </span>
             </Link>
 
