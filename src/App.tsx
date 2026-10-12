@@ -21,6 +21,7 @@ import { site, faqs, gallery } from "./data/content";
 import { cx } from "./styles";
 import { Route, Routes } from "react-router-dom";
 import PackageGallery from "./components/PackageGallery";
+import PackagesPage from "./components/PackagesPage";
 import AdminApp from "./admin/AdminApp";
 import usePageMotion from "./hooks/usePageMotion";
 
@@ -63,7 +64,11 @@ const LandingPage = () => {
             className={cx("navigation", menu && "is-open")}
             aria-label="Main navigation"
           >
-            <a href="#packages" onClick={() => setMenu(false)}>
+            <a
+              href="#packages"
+              className="text-base font-semibold transition-colors hover:text-[#a27113] md:text-base"
+              onClick={() => setMenu(false)}
+            >
               Packages
             </a>
           </nav>
@@ -369,6 +374,8 @@ const adminRoute = configuredAdminRoute
 const App = () => (
   <Routes>
     {adminRoute && <Route path={adminRoute} element={<AdminApp />} />}
+    <Route path="/packages" element={<PackagesPage />} />
+    <Route path="/packages/:categorySlug" element={<PackagesPage />} />
     <Route path="*" element={<LandingPage />} />
   </Routes>
 );

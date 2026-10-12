@@ -23,10 +23,10 @@ export const styles = {
     "[&>span]:flex [&>span]:items-center [&>span]:gap-0.5 [&>span]:text-[21px] [&>span]:font-bold [&>span]:leading-tight [&>span]:tracking-[-1px] md:[&>span]:text-[25px] [&>small]:mt-1 [&>small]:block [&>small]:text-[7px] [&>small]:tracking-[.7px] md:[&>small]:text-[9px] md:[&>small]:tracking-[1px]",
   "brand-infinity": "w-5 -rotate-[18deg] text-[#bd8816] md:w-[23px]",
   navigation:
-    "absolute left-5 right-5 top-[68px] hidden flex-col gap-6 rounded-md border border-line bg-[#fff9ec] p-6 text-sm shadow-lg md:static md:flex md:flex-row md:gap-7 md:border-0 md:bg-transparent md:p-0 md:text-xs md:shadow-none [&_a:hover]:text-[#a27113]",
+    "absolute left-5 right-5 top-[68px] hidden flex-col gap-6 rounded-md border border-line bg-[#fff9ec] p-6 text-base font-semibold shadow-lg md:static md:flex md:flex-row md:gap-8 md:border-0 md:bg-transparent md:p-0 md:text-base md:shadow-none [&_a:hover]:text-[#a27113] [&_a]:transition-colors",
   "is-open": "max-md:!flex",
   "nav-cta":
-    "ml-auto !gap-1.5 !px-3 !py-2.5 !text-[9px] max-[370px]:hidden md:ml-0 md:!gap-4 md:!px-4 md:!py-3 md:!text-xs max-md:[&_svg]:w-3.5",
+    "ml-auto !gap-2 !px-3.5 !py-2.5 !text-xs font-semibold max-[370px]:hidden md:ml-0 md:!gap-4 md:!px-5 md:!py-3 md:!text-sm max-md:[&_svg]:w-3.5",
   "menu-button":
     "grid h-[38px] w-[30px] shrink-0 place-items-center max-[370px]:ml-auto md:hidden",
   hero: "relative overflow-hidden bg-[radial-gradient(ellipse_at_83%_25%,#e9e9dccc,transparent_56%)]",
@@ -75,7 +75,7 @@ export const styles = {
     "mb-7 flex flex-col items-start gap-3 md:flex-row md:items-center md:justify-between",
   filters: "flex flex-wrap gap-1.5 md:gap-2",
   filter:
-    "flex items-center gap-2 rounded-full border border-[#c9cfb8] bg-transparent px-3 py-2 text-[10px] text-[#626b50] transition-colors hover:border-forest aria-pressed:border-forest aria-pressed:bg-forest aria-pressed:text-cream md:px-[18px] md:py-2.5 md:text-[11px]",
+    "flex items-center gap-2 rounded-full border border-[#c9cfb8] bg-transparent px-3.5 py-2.5 text-xs font-medium text-[#626b50] transition-colors hover:border-forest aria-pressed:border-forest aria-pressed:bg-forest aria-pressed:text-cream md:px-5 md:py-2.5 md:text-sm",
   active: "",
   "trip-count": "text-[9px] text-[#71765f] md:text-[10px]",
   "trip-grid": "grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4 xl:gap-5",
@@ -165,37 +165,38 @@ export const styles = {
     "scroll-mt-[85px] border-y border-[#e1e4d9] bg-[#f1f2eb] py-14 md:py-[85px]",
   "package-toolbar":
     "mb-7 mt-8 flex flex-col items-start gap-3.5 md:flex-row md:items-center md:justify-between md:gap-5",
-  "package-count": "flex items-center gap-2 text-[11px] text-[#697363]",
+  "package-count":
+    "flex items-center gap-2 text-xs font-medium text-[#697363] md:text-sm",
   "packages-grid": "grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-[30px]",
   "package-card":
     "animate-package-enter overflow-hidden rounded-2xl border border-[#e1e4d7] bg-[#fffefa] transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_#243e2810]",
   "package-cover":
     'group relative block h-[265px] w-full overflow-hidden bg-[#788967] text-left md:h-[285px] [&>img]:h-full [&>img]:w-full [&>img]:object-cover [&>img]:transition-transform [&>img]:duration-700 hover:[&>img]:scale-[1.06] after:absolute after:inset-x-0 after:bottom-0 after:top-[45%] after:bg-gradient-to-t after:from-[#12291c99] after:to-transparent after:content-[""]',
   "package-badge":
-    "absolute left-5 top-5 rounded-full bg-[#fffbeeeb] px-3 py-2 text-[10px]",
+    "absolute left-5 top-5 rounded-full bg-[#fffbeeeb] px-3.5 py-2 text-xs font-medium text-[#44523a]",
   "package-place":
-    "absolute bottom-5 left-6 z-10 flex items-center gap-2 text-xs text-white",
+    "absolute bottom-5 left-6 z-10 flex items-center gap-2 text-sm font-medium text-white md:text-[15px]",
   "package-cover-arrow":
     "absolute bottom-4 right-5 z-10 grid size-9 place-items-center rounded-full border border-white/50 text-white transition duration-300 group-hover:rotate-45 group-hover:bg-white/10",
   "package-content":
-    "p-[22px] md:px-[27px] md:pb-[23px] md:pt-[25px] [&_h3]:mb-2 [&_h3]:mt-3.5 [&_h3]:font-display [&_h3]:text-[27px] [&_h3]:font-normal [&_h3]:leading-tight [&_h3]:tracking-[-.6px] md:[&_h3]:text-[29px] [&_h3_button]:text-left",
+    "p-6 md:px-7 md:pb-7 md:pt-7 [&_h3]:mb-2.5 [&_h3]:mt-3.5 [&_h3]:font-display [&_h3]:text-[28px] [&_h3]:font-normal [&_h3]:leading-tight [&_h3]:tracking-[-.6px] md:[&_h3]:text-[33px] [&_h3_button]:text-left",
   "package-meta":
-    "flex justify-between gap-4 text-[10px] text-[#748168] [&>span:first-child]:flex [&>span:first-child]:items-center [&>span:first-child]:gap-1.5 [&>span:last-child]:text-[#8a6b2c]",
-  "package-route": "text-[10px] text-[#7b816f]",
+    "flex justify-between gap-4 text-xs font-semibold text-[#6e7d60] md:text-[13px] [&>span:first-child]:flex [&>span:first-child]:items-center [&>span:first-child]:gap-1.5 [&>span:last-child]:text-[#8a6b2c]",
+  "package-route": "text-xs font-medium text-[#737a67] md:text-sm",
   "package-description":
-    "mt-4 text-xs leading-[1.85] text-[#6d7565] md:min-h-[67px]",
+    "mt-4 text-[13px] leading-[1.85] text-[#5e6656] md:min-h-[67px] md:text-[15px]",
   "package-features":
-    "flex flex-wrap gap-x-3 gap-y-2 py-5 md:gap-x-3.5 [&>span]:flex [&>span]:items-center [&>span]:gap-1 [&>span]:text-[9px] [&>span]:text-[#5f7252] md:[&>span]:text-[10px]",
+    "flex flex-wrap gap-x-3.5 gap-y-2 py-5 md:gap-x-4 [&>span]:flex [&>span]:items-center [&>span]:gap-1.5 [&>span]:text-xs [&>span]:font-medium [&>span]:text-[#546847] md:[&>span]:text-[13px]",
   "package-price-row":
-    "flex items-center justify-between gap-4 border-t border-[#e7e8df] pt-5 [&_small]:mb-1 [&_small]:block [&_small]:text-[7px] [&_small]:tracking-wider [&_small]:text-[#7b8271] [&_strong]:text-xl [&_strong]:font-medium [&_strong]:tracking-[-.5px]",
+    "flex items-center justify-between gap-4 border-t border-[#e7e8df] pt-5 [&_small]:mb-1 [&_small]:block [&_small]:text-[9px] [&_small]:font-semibold [&_small]:tracking-wider [&_small]:text-[#707865] md:[&_small]:text-[10px] [&_strong]:text-2xl [&_strong]:font-semibold [&_strong]:tracking-[-.5px] md:[&_strong]:text-[27px]",
   "package-flight-options":
-    "mb-3 inline-grid grid-cols-2 rounded-md border border-[#d9ded2] bg-[#f3f5ef] p-1 text-[10px]",
+    "mb-3 inline-grid grid-cols-2 rounded-md border border-[#d9ded2] bg-[#f3f5ef] p-1 text-xs",
   "package-flight-option":
-    "min-h-8 rounded-sm px-2.5 py-1.5 text-[#626b50] transition-colors aria-pressed:bg-forest aria-pressed:text-cream",
+    "min-h-8 rounded-sm px-2.5 py-1.5 text-xs text-[#626b50] transition-colors aria-pressed:bg-forest aria-pressed:text-cream",
   "package-detail-button":
-    "flex items-center gap-4 rounded-lg border border-[#cdd7bf] px-4 py-3 text-[11px] transition-colors hover:bg-[#edf1e4]",
+    "flex items-center gap-3 rounded-lg border border-[#cdd7bf] px-4 py-3 text-xs font-semibold transition-colors hover:bg-[#edf1e4] md:text-sm",
   "custom-package":
-    "mt-[30px] flex flex-col items-start gap-5 rounded-xl border border-dashed border-[#b6c2a6] p-[22px] md:flex-row md:items-center md:justify-between md:px-[30px] md:py-6 [&>div]:flex [&>div]:items-center [&>div]:gap-4 [&_h3]:mb-1 [&_h3]:text-sm [&_h3]:font-medium [&_p]:text-[11px] [&_p]:leading-relaxed [&_p]:text-[#717b65] max-md:[&>.text-link]:ml-[62px]",
+    "mt-[30px] flex flex-col items-start gap-5 rounded-xl border border-dashed border-[#b6c2a6] p-6 md:flex-row md:items-center md:justify-between md:px-8 md:py-7 [&>div]:flex [&>div]:items-center [&>div]:gap-4 [&_h3]:mb-1 [&_h3]:text-base [&_h3]:font-semibold [&_p]:text-xs md:[&_p]:text-[13px] [&_p]:leading-relaxed [&_p]:text-[#717b65] max-md:[&>.text-link]:ml-[62px]",
   "custom-package-icon":
     "grid size-[45px] shrink-0 place-items-center rounded-full bg-[#e3e9d7]",
   "package-dialog":

@@ -1,7 +1,9 @@
-import { type FormEvent, useEffect, useRef, useState } from "react";
+import { type FormEvent, useEffect, useMemo, useRef, useState } from "react";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import {
-  ArrowUpRight,
+  ArrowLeft,
   ArrowRight,
+  ArrowUpRight,
   Check,
   Clock3,
   MapPin,
@@ -15,8 +17,55 @@ import { site } from "../data/content";
 import type { TourPackage } from "../types";
 import { cx } from "../styles";
 
-const Packages = ({ items }: { items: TourPackage[] }) => {
-  const [category, setCategory] = useState("All trips");
+const Packages = ({
+  items,
+  isInnerPage = false,
+}: {
+  items: TourPackage[];
+  isInnerPage?: boolean;
+}) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { categorySlug } = useParams();
+
+  const packageCategories = useMemo(() => {
+    const filterNames = new Map<string, string>();
+    [
+      ...items.map((item) => item.category),
+      ...items.flatMap((item) => item.tags ?? []),
+    ]
+      .map((name) => name.trim())
+      .filter(
+        (name) =>
+          name &&
+          !["india", "international", "couples"].includes(
+            name.toLocaleLowerCase(),
+          ),
+      )
+      .forEach((name) => {
+        const normalized = name.toLocaleLowerCase();
+        if (!filterNames.has(normalized)) filterNames.set(normalized, name);
+      });
+    return [
+      "All trips",
+      "India",
+      "International",
+      ...filterNames.values(),
+      "Couples",
+    ];
+  }, [items]);
+
+  const [category, setCategory] = useState(() => {
+    if (!isInnerPage) return "All trips";
+    const param = searchParams.get("category") || categorySlug;
+    if (!param) return "All trips";
+    const normalized = decodeURIComponent(param)
+      .toLowerCase()
+      .replace(/-/g, " ");
+    return (
+      packageCategories.find((cat) => cat.toLowerCase() === normalized) ??
+      "All trips"
+    );
+  });
   const [selected, setSelected] = useState<TourPackage | null>(null);
   const [date, setDate] = useState("");
   const [travellers, setTravellers] = useState("2");
@@ -26,30 +75,128 @@ const Packages = ({ items }: { items: TourPackage[] }) => {
     {},
   );
   const dialog = useRef<HTMLDialogElement>(null);
-  const filterNames = new Map<string, string>();
-  [
-    ...items.map((item) => item.category),
-    ...items.flatMap((item) => item.tags ?? []),
-  ]
-    .map((name) => name.trim())
-    .filter(
-      (name) =>
-        name &&
-        !["india", "international", "couples"].includes(
-          name.toLocaleLowerCase(),
-        ),
-    )
-    .forEach((name) => {
-      const normalized = name.toLocaleLowerCase();
-      if (!filterNames.has(normalized)) filterNames.set(normalized, name);
-    });
-  const packageCategories = [
-    "All trips",
-    "India",
-    "International",
-    ...filterNames.values(),
-    "Couples",
-  ];
+
+  useEffect(() => {
+    if (!isInnerPage) return;
+    const param = searchParams.get("category") || categorySlug;
+    if (!param) {
+      setCategory("All trips");
+      return;
+    }
+    const normalized = decodeURIComponent(param)
+      .toLowerCase()
+      .replace(/-/g, " ");
+    const matched =
+      packageCategories.find((cat) => cat.toLowerCase() === normalized) ??
+      "All trips";
+    setCategory(matched);
+  }, [searchParams, categorySlug, isInnerPage, packageCategories]);
+
+  const handleCategorySelect = (item: string) => {
+    setCategory(item);
+    if (isInnerPage) {
+      if (item === "All trips") {
+        setSearchParams({});
+      } else {
+        setSearchParams({ category: item });
+      }
+    }
+  };
+
+  const getFilterCount = (filterName: string) => {
+    const norm = filterName.toLowerCase();
+    return items.filter(
+      (item) =>
+        filterName === "All trips" ||
+        (filterName === "India" && (item.region ?? "India") === "India") ||
+        (filterName === "International" && item.region === "International") ||
+        (filterName === "Couples" && item.forCouples === true) ||
+        (!["all trips", "india", "international", "couples"].includes(norm) &&
+          (item.category.toLowerCase() === norm ||
+            item.tags?.some((t) => t.toLowerCase() === norm))),
+    ).length;
+  };
+
+  const getCategoryPhoto = (filterName: string, fallback: string) => {
+    const norm = filterName.toLowerCase();
+    const match = items.find(
+      (item) =>
+        (filterName === "India" && (item.region ?? "India") === "India") ||
+        (filterName === "International" && item.region === "International") ||
+        (filterName === "Couples" && item.forCouples === true) ||
+        item.category.toLowerCase() === norm ||
+        item.tags?.some((t) => t.toLowerCase() === norm),
+    );
+    return match?.image || fallback;
+  };
+
+  const mobileCategories = [
+    {
+      name: "Nature",
+      count: getFilterCount("Nature"),
+      image: getCategoryPhoto(
+        "Nature",
+        "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=800&q=80",
+      ),
+    },
+    {
+      name: "Beach",
+      count: getFilterCount("Beach"),
+      image: getCategoryPhoto(
+        "Beach",
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
+      ),
+    },
+    {
+      name: "India",
+      count: getFilterCount("India"),
+      image: getCategoryPhoto(
+        "India",
+        "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80",
+      ),
+    },
+    {
+      name: "International",
+      count: getFilterCount("International"),
+      image: getCategoryPhoto(
+        "International",
+        "https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=800&q=80",
+      ),
+    },
+    {
+      name: "Couples",
+      count: getFilterCount("Couples"),
+      image: getCategoryPhoto(
+        "Couples",
+        "https://images.unsplash.com/photo-1505881502353-a1986add3762?auto=format&fit=crop&w=800&q=80",
+      ),
+    },
+    {
+      name: "Adventure",
+      count: getFilterCount("Adventure"),
+      image: getCategoryPhoto(
+        "Adventure",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80",
+      ),
+    },
+    {
+      name: "Culture",
+      count: getFilterCount("Culture"),
+      image: getCategoryPhoto(
+        "Culture",
+        "https://images.unsplash.com/photo-1509030450996-dd1a26dda07a?auto=format&fit=crop&w=800&q=80",
+      ),
+    },
+    {
+      name: "City",
+      count: getFilterCount("City"),
+      image: getCategoryPhoto(
+        "City",
+        "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80",
+      ),
+    },
+  ].filter((c) => c.count > 0);
+
   const selectedFilter = category.toLocaleLowerCase();
   const isSystemFilter = [
     "all trips",
@@ -113,13 +260,48 @@ const Packages = ({ items }: { items: TourPackage[] }) => {
   return (
     <section id="packages" className={cx("packages-section")}>
       <div className={cx("container")}>
+        {isInnerPage && (
+          <div className="mb-6 flex items-center justify-between">
+            <Link
+              to="/#packages"
+              className="inline-flex items-center gap-2 rounded-full border border-[#cbd1c0] bg-[#fffefa] px-4 py-2 text-xs font-semibold text-[#546244] transition-colors hover:border-forest hover:bg-forest hover:text-cream"
+            >
+              <ArrowLeft size={14} /> Back to home
+            </Link>
+            <span className="text-xs text-[#727d65]">
+              Showing <strong>{visible.length}</strong> {category} packages
+            </span>
+          </div>
+        )}
         <div className={cx("section-heading")} data-reveal>
           <div>
-            <span className={cx("eyebrow")}>GOOD THINGS COME IN PACKAGES</span>
+            <span className={cx("eyebrow")}>
+              {isInnerPage
+                ? "CURATED ITINERARIES"
+                : "GOOD THINGS COME IN PACKAGES"}
+            </span>
             <h2>
-              A few days away.
-              <br />
-              <em>A whole new feeling.</em>
+              {isInnerPage ? (
+                category === "All trips" ? (
+                  <>
+                    All Curated
+                    <br />
+                    <em>trip packages.</em>
+                  </>
+                ) : (
+                  <>
+                    {category}
+                    <br />
+                    <em>escapes & itineraries.</em>
+                  </>
+                )
+              ) : (
+                <>
+                  A few days away.
+                  <br />
+                  <em>A whole new feeling.</em>
+                </>
+              )}
             </h2>
           </div>
           <p>
@@ -128,14 +310,79 @@ const Packages = ({ items }: { items: TourPackage[] }) => {
             Pick a package, or customise one to suit you.
           </p>
         </div>
-        <div className={cx("package-toolbar")}>
-          <div className={cx("filters")} aria-label="Filter packages">
+
+        {!isInnerPage && (
+          <div className="mb-8 block md:hidden">
+            <Link
+              to="/packages"
+              className="group mb-5 flex items-center justify-between rounded-2xl bg-gold px-6 py-4.5 text-forest shadow-[0_4px_16px_#bd881622] transition-transform active:scale-[0.98]"
+            >
+              <div className="flex flex-col text-left">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#694f17]">
+                  Complete Collection
+                </span>
+                <span className="text-lg font-bold text-forest">
+                  Explore our packages
+                </span>
+              </div>
+              <span className="grid size-9 place-items-center rounded-full bg-forest text-cream transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                <ArrowUpRight size={19} />
+              </span>
+            </Link>
+
+            <div className="mb-3.5 flex items-center justify-between">
+              <span className="text-xs font-bold uppercase tracking-[1.4px] text-[#677252]">
+                Explore by category
+              </span>
+              <span className="text-xs font-medium text-[#717b62]">
+                {mobileCategories.length} categories
+              </span>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3 pb-2">
+              {mobileCategories.map((cat) => (
+                <Link
+                  key={cat.name}
+                  to={`/packages?category=${encodeURIComponent(cat.name)}`}
+                  className="group relative flex h-[148px] flex-col justify-end overflow-hidden rounded-2xl border border-[#d6d4c5] bg-[#1a2d1f] p-3.5 shadow-sm transition-all active:scale-[0.98]"
+                >
+                  <img
+                    src={cat.image}
+                    alt={cat.name}
+                    className="absolute inset-0 h-full w-full object-cover opacity-85 transition-transform duration-700 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#102014f2] via-[#10201460] to-transparent" />
+                  <span className="absolute right-2.5 top-2.5 grid size-6 place-items-center rounded-full bg-white/25 text-white backdrop-blur-sm transition-transform group-hover:rotate-45">
+                    <ArrowUpRight size={13} />
+                  </span>
+                  <div className="relative z-10 text-left">
+                    <span className="font-display block text-[21px] font-normal leading-tight text-[#fffbf2]">
+                      {cat.name}
+                    </span>
+                    <span className="mt-0.5 block text-xs font-medium text-[#dce5cb]">
+                      {cat.count} {cat.count === 1 ? "trip" : "trips"}
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div
+          className={`${cx("package-toolbar")} ${!isInnerPage ? "hidden md:flex" : "flex"}`}
+        >
+          <div
+            className={`${cx("filters")} ${isInnerPage ? "max-md:w-full max-md:flex-nowrap max-md:overflow-x-auto max-md:pb-1" : ""}`}
+            aria-label="Filter packages"
+          >
             {packageCategories.map((item) => (
               <button
                 key={item}
-                className={cx("filter")}
+                className={`${cx("filter")} ${isInnerPage ? "shrink-0 whitespace-nowrap" : ""}`}
                 aria-pressed={category === item}
-                onClick={() => setCategory(item)}
+                onClick={() => handleCategorySelect(item)}
               >
                 {item}
               </button>
@@ -146,7 +393,9 @@ const Packages = ({ items }: { items: TourPackage[] }) => {
             {visible.length} curated trip ideas
           </span>
         </div>
-        <div className={cx("packages-grid")}>
+        <div
+          className={`${cx("packages-grid")} ${!isInnerPage ? "hidden md:grid" : "grid"}`}
+        >
           {visible.map((item, index) => (
             <article
               className={cx("package-card")}
