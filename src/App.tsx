@@ -1,11 +1,8 @@
-import { type FormEvent, useState } from "react";
+import { useState } from "react";
 import {
   ArrowUpRight,
-  ArrowRight,
   Menu,
   X,
-  Mountain,
-  MapPin,
   Compass,
   Leaf,
   Heart,
@@ -20,7 +17,7 @@ import {
   Plane,
   MessageCircle,
 } from "lucide-react";
-import { site, trips, faqs, gallery } from "./data/content";
+import { site, faqs, gallery } from "./data/content";
 import { cx } from "./styles";
 import { Route, Routes } from "react-router-dom";
 import PackageGallery from "./components/PackageGallery";
@@ -50,16 +47,9 @@ const Brand = () => {
 const LandingPage = () => {
   usePageMotion();
   const [menu, setMenu] = useState(false);
-  const [destination, setDestination] = useState("Anywhere sounds good");
-  const [style, setStyle] = useState("Any kind of escape");
   const contact = site.whatsapp
     ? `https://wa.me/${site.whatsapp}?text=${encodeURIComponent("Hi TrippyGo! I'd love to plan a trip.")}`
     : site.instagram;
-  const explore = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    void style;
-    document.getElementById("packages")?.scrollIntoView({ behavior: "smooth" });
-  };
   return (
     <>
       <a className={cx("skip-link")} href="#main">
@@ -73,14 +63,9 @@ const LandingPage = () => {
             className={cx("navigation", menu && "is-open")}
             aria-label="Main navigation"
           >
-            {[
-              ["Packages", "packages"],
-              ["Our story", "about"],
-            ].map(([text, id]) => (
-              <a key={id} href={`#${id}`} onClick={() => setMenu(false)}>
-                {text}
-              </a>
-            ))}
+            <a href="#packages" onClick={() => setMenu(false)}>
+              Packages
+            </a>
           </nav>
           <a
             className={cx("button", "button-green", "nav-cta")}
@@ -184,46 +169,7 @@ const LandingPage = () => {
           <span>LET’S TRIP TOGETHER</span>
           <span aria-hidden="true">✳</span>
         </div>
-        <div className={cx("container", "search-container")}>
-          <form className={cx("trip-search")} onSubmit={explore}>
-            <div className={cx("search-intro")}>
-              <Compass size={23} />
-              <strong>
-                Your next
-                <br />
-                “let’s go” moment.
-              </strong>
-            </div>
-            <label>
-              <span>
-                <MapPin size={14} /> WHERE TO?
-              </span>
-              <select
-                value={destination}
-                onChange={(e) => setDestination(e.target.value)}
-              >
-                <option>Anywhere sounds good</option>
-                {trips.map((t) => (
-                  <option key={t.id}>{t.destination}</option>
-                ))}
-              </select>
-            </label>
-            <label>
-              <span>
-                <Leaf size={14} /> YOUR KIND OF TRIP
-              </span>
-              <select value={style} onChange={(e) => setStyle(e.target.value)}>
-                <option>Any kind of escape</option>
-                <option>Mountains</option>
-                <option>Backwaters</option>
-                <option>Beaches</option>
-              </select>
-            </label>
-            <button className={cx("button", "button-green")} type="submit">
-              Explore escapes <ArrowRight size={18} />
-            </button>
-          </form>
-        </div>
+
         <div className={cx("container", "promise-strip")}>
           <span>
             <Leaf /> A little closer to nature
@@ -268,120 +214,7 @@ const LandingPage = () => {
             ))}
           </div>
         </section>
-        <section className={cx("about-section")} id="about">
-          <div className={cx("container", "about-grid")}>
-            <div className={cx("about-art")}>
-              <img
-                src="./images/sunset-stay.webp"
-                alt="A TrippyGo holiday stay under a golden evening sky"
-                loading="lazy"
-              />
-              <div className={cx("photo-note")}>
-                Let’s trip
-                <br />
-                <em>together!</em>
-                <span>↗</span>
-              </div>
-              <div className={cx("small-stamp")}>
-                <Mountain size={24} />
-                <span>
-                  GO SLOW.
-                  <br />
-                  FEEL MORE.
-                </span>
-              </div>
-            </div>
-            <div className={cx("about-copy")}>
-              <span className={cx("eyebrow")}>SMALL TEAM. BIG WANDERLUST.</span>
-              <h2>
-                Thoughtfully planned.
-                <br />
-                <em>Entirely yours.</em>
-              </h2>
-              <p>
-                We believe the best trips leave you with stories, not a to-do
-                list. TrippyGo is here to bring a little more ease, a little
-                more discovery, and a whole lot of heart to your next getaway.
-              </p>
-              <div className={cx("value-item")}>
-                <span>
-                  <Compass size={21} />
-                </span>
-                <div>
-                  <h3>Your trip, your rhythm</h3>
-                  <p>Early starts or slow mornings? We plan around you.</p>
-                </div>
-              </div>
-              <div className={cx("value-item")}>
-                <span>
-                  <Leaf size={21} />
-                </span>
-                <div>
-                  <h3>Good places, thoughtfully picked</h3>
-                  <p>Nature, local experiences, and room to simply be.</p>
-                </div>
-              </div>
-              <div className={cx("value-item")}>
-                <span>
-                  <Heart size={21} />
-                </span>
-                <div>
-                  <h3>A real person, a conversation away</h3>
-                  <p>Talk to the people helping bring your trip to life.</p>
-                </div>
-              </div>
-              <a href="#contact" className={cx("text-link")}>
-                Get to know your next adventure <ArrowUpRight size={18} />
-              </a>
-            </div>
-          </div>
-        </section>
-        <section
-          className={cx("section", "container", "how-section")}
-          id="notes"
-        >
-          <span className={cx("eyebrow")}>FROM “SOMEDAY” TO “LET’S GO”</span>
-          <div className={cx("section-heading")}>
-            <h2>
-              From a little daydream
-              <br />
-              <em>to a great escape.</em>
-            </h2>
-            <a
-              href={site.instagram}
-              target="_blank"
-              rel="noreferrer"
-              className={cx("text-link")}
-            >
-              Say hello on Instagram <ArrowUpRight size={18} />
-            </a>
-          </div>
-          <div className={cx("steps")}>
-            {[
-              [
-                "01",
-                "Tell us your daydream",
-                "A place, a mood, a weekend. Give us a little idea of what you have in mind.",
-              ],
-              [
-                "02",
-                "We make it a plan",
-                "Together, we’ll work out the places, pace, and little details that feel right.",
-              ],
-              [
-                "03",
-                "You make the memories",
-                "Once your plan is confirmed, pack your bags. There’s a world waiting outside.",
-              ],
-            ].map(([n, h, p]) => (
-              <div key={n}>
-                <span className={cx("step-number")}>{n}</span>
-                <h3>{h}</h3>
-                <p>{p}</p>
-              </div>
-            ))}
-          </div>
-        </section>
+
         <section className={cx("instagram-section")}>
           <div className={cx("container")}>
             <div className={cx("section-heading")}>
@@ -499,7 +332,6 @@ const LandingPage = () => {
           </div>
           <div className={cx("footer-links")}>
             <a href="#packages">Our packages</a>
-            <a href="#about">Our story</a>
             <a
               href={site.instagram}
               target="_blank"
