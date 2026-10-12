@@ -60,7 +60,7 @@ const PackagesPage = () => {
               All packages
             </Link>
           </nav>
-          <div className="flex items-center gap-2">
+          <div className="ml-auto flex items-center gap-2">
             <Link
               to="/"
               className="inline-flex items-center gap-1.5 rounded-lg border border-[#c6cca0] bg-[#fffefa] px-3 py-2 text-xs font-semibold text-[#536142] transition-colors hover:border-forest hover:bg-forest hover:text-cream"

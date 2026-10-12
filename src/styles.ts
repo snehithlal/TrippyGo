@@ -26,7 +26,7 @@ export const styles = {
     "absolute left-5 right-5 top-[68px] hidden flex-col gap-6 rounded-md border border-line bg-[#fff9ec] p-6 text-base font-semibold shadow-lg md:static md:flex md:flex-row md:gap-8 md:border-0 md:bg-transparent md:p-0 md:text-base md:shadow-none [&_a:hover]:text-[#a27113] [&_a]:transition-colors",
   "is-open": "max-md:!flex",
   "nav-cta":
-    "ml-auto !gap-2 !px-3.5 !py-2.5 !text-xs font-semibold max-[370px]:hidden md:ml-0 md:!gap-4 md:!px-5 md:!py-3 md:!text-sm max-md:[&_svg]:w-3.5",
+    "ml-auto !gap-2 !px-3.5 !py-2.5 !text-xs font-semibold hidden md:inline-flex md:ml-0 md:!gap-4 md:!px-5 md:!py-3 md:!text-sm",
   "menu-button":
     "grid h-[38px] w-[30px] shrink-0 place-items-center max-[370px]:ml-auto md:hidden",
   hero: "relative overflow-hidden bg-[radial-gradient(ellipse_at_83%_25%,#e9e9dccc,transparent_56%)]",
