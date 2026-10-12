@@ -139,7 +139,9 @@ const PackagesPage = () => {
                 </span>
               </h1>
               <p className="mt-4 max-w-lg text-[13px] leading-[1.95] text-[#c5ccb9] md:text-sm">
-                Wake up somewhere wonderful. Thoughtfully planned trips, beautiful stays, and all the little moments in between. Pick your favorite or let us customize one just for you.
+                Wake up somewhere wonderful. Thoughtfully planned trips,
+                beautiful stays, and all the little moments in between. Pick
+                your favorite or let us customize one just for you.
               </p>
             </div>
           </div>

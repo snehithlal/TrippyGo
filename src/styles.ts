@@ -12,7 +12,8 @@ export const styles = {
     "mb-4 block text-[9px] font-bold tracking-[1.3px] text-gold/90 md:text-[10px] md:tracking-[1.8px]",
   "text-link":
     "inline-flex items-center gap-4 border-b border-gold/40 pb-2 text-xs font-semibold text-[#f5efe0] [&_svg]:text-gold [&_svg]:transition-transform hover:[&_svg]:translate-x-0.5 hover:[&_svg]:-translate-y-0.5 hover:text-gold md:text-[13px]",
-  "skip-link": "fixed -top-24 left-5 z-50 bg-[#0a150e] text-[#f5efe0] p-4 focus:top-2.5",
+  "skip-link":
+    "fixed -top-24 left-5 z-50 bg-[#0a150e] text-[#f5efe0] p-4 focus:top-2.5",
   header:
     "sticky top-0 z-20 border-b border-white/10 bg-[#0a150e]/85 backdrop-blur-xl",
   "nav-wrap":
@@ -135,8 +136,7 @@ export const styles = {
     "relative px-1 pb-2 pt-[18px] [&>span]:text-[8px] [&>span]:tracking-[1.3px] [&>span]:text-gold [&_h3]:mt-1 [&_h3]:pr-5 [&_h3]:font-handwritten [&_h3]:text-[28px] md:[&_h3]:text-[26px] [&_h3]:text-[#f5efe0] [&>svg]:absolute [&>svg]:right-0.5 [&>svg]:top-8 [&>svg]:text-gold",
   "faq-section":
     "grid grid-cols-1 gap-6 md:grid-cols-[1fr_1.25fr] md:gap-11 xl:gap-[90px] [&_h2]:text-[#f5efe0] [&_h2_em]:text-gold",
-  faqs:
-    "[&_details]:border-b [&_details]:border-white/10 [&_summary]:flex [&_summary]:cursor-pointer [&_summary]:list-none [&_summary]:items-center [&_summary]:justify-between [&_summary]:gap-5 [&_summary]:py-[21px] [&_summary]:text-xs [&_summary]:font-medium [&_summary]:text-[#f5efe0] [&_summary]:transition-colors [&_summary::-webkit-details-marker]:hidden hover:[&_summary]:text-gold [&_p]:pb-[22px] [&_p]:pr-6 [&_p]:text-xs [&_p]:leading-[1.8] [&_p]:text-[#a8b897] [&_details[open]_p]:animate-detail-open [&_details[open]_.faq-plus]:rotate-45",
+  faqs: "[&_details]:border-b [&_details]:border-white/10 [&_summary]:flex [&_summary]:cursor-pointer [&_summary]:list-none [&_summary]:items-center [&_summary]:justify-between [&_summary]:gap-5 [&_summary]:py-[21px] [&_summary]:text-xs [&_summary]:font-medium [&_summary]:text-[#f5efe0] [&_summary]:transition-colors [&_summary::-webkit-details-marker]:hidden hover:[&_summary]:text-gold [&_p]:pb-[22px] [&_p]:pr-6 [&_p]:text-xs [&_p]:leading-[1.8] [&_p]:text-[#a8b897] [&_details[open]_p]:animate-detail-open [&_details[open]_.faq-plus]:rotate-45",
   "faq-plus": "text-[22px] font-normal text-gold",
   "contact-section": "pb-11 md:pb-[65px]",
   "contact-panel":
@@ -163,10 +163,10 @@ export const styles = {
     "my-[22px] flex flex-wrap gap-2 [&>span]:flex [&>span]:items-center [&>span]:gap-1 [&>span]:rounded-sm [&>span]:bg-white/10 [&>span]:border [&>span]:border-white/15 [&>span]:px-2 [&>span]:py-1.5 [&>span]:text-[10px] [&>span]:text-[#d5dec6]",
   itinerary:
     "grid list-none gap-4 p-0 [&_li]:grid [&_li]:grid-cols-[50px_1fr] [&_li]:gap-3.5 [&_li]:text-xs [&_li]:leading-relaxed [&_strong]:text-gold",
-  "copy-button": "mt-4 block w-full text-center text-[11px] text-gold/80 hover:text-gold underline",
+  "copy-button":
+    "mt-4 block w-full text-center text-[11px] text-gold/80 hover:text-gold underline",
   "sr-only": "sr-only",
-  "packages-section":
-    "scroll-mt-[85px] py-14 md:py-[85px]",
+  "packages-section": "scroll-mt-[85px] py-14 md:py-[85px]",
   "package-toolbar":
     "mb-7 mt-8 flex flex-col items-start gap-3.5 md:flex-row md:items-center md:justify-between md:gap-5",
   "package-count":
